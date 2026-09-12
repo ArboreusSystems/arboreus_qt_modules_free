@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.30)
+
+add_subdirectory(AApplication)
+add_subdirectory(ALogger)
+add_subdirectory(ATemplates)
+add_subdirectory(AUniversal)
+add_subdirectory(AUIHandler)
+add_subdirectory(ADevice)
+add_subdirectory(ASettings)
+add_subdirectory(AClipboard)
+add_subdirectory(AQML)
