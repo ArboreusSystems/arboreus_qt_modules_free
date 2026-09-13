@@ -51,6 +51,16 @@ void AClipboard::mInit(void) {
 
 	pClipboard = QGuiApplication::clipboard();
 
+#if defined(Q_OS_IOS)
+	pDriver = qobject_cast<AClipboardDriver*>(new AClipboardDriverIOS(pClipboard,this));
+#elif defined(Q_OS_ANDROID)
+	pDriver = qobject_cast<AClipboardDriver*>(new AClipboardDriverAndroid(pClipboard,this));
+#elif defined(Q_OS_MACOS)
+	pDriver = qobject_cast<AClipboardDriver*>(new AClipboardDriverMacOS(pClipboard,this));
+#else
+	pDriver = new AClipboardDriver(pClipboard,this);
+#endif
+
 	_A_DEBUG << "AClipboard initiated";
 	emit sgInitiated();
 }
@@ -187,4 +197,58 @@ QString AClipboard::mTextPasteFrom(void) {
 void AClipboard::mTextCopyTo(QString inText) {
 
 	pClipboard->setText(inText,QClipboard::Clipboard);
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void AClipboard::mTextCopySensitiveTo(QString inText) {
+
+	pDriver->mTextCopySensitiveTo(inText);
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void AClipboard::mTextCopySensitiveToAndClear(QString inText,int inTimeoutSeconds) {
+
+	pDriver->mTextCopySensitiveTo(inText);
+	QTimer::singleShot(inTimeoutSeconds * 1000,this,&AClipboard::slClear);
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void AClipboard::mClear(void) {
+
+	pClipboard->clear();
+	pDriver->mClear();
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void AClipboard::slClear(void) {
+
+	this->mClear();
 }

@@ -49,12 +49,69 @@ set(${A_PREFIX}_SOURCES_PRECOMPILED_HEADERS_PUBLIC
 set(${A_PREFIX}_SOURCES_HEADERS
 	${${A_PREFIX}_SOURCES_HEADERS}
 	aclipboard.h
+	aclipboarddriver.h
 )
 
 set(${A_PREFIX}_SOURCES_CPP
 	${${A_PREFIX}_SOURCES_CPP}
 	aclipboard.cpp
+	aclipboarddriver.cpp
 )
+
+if(APPLE AND CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+
+	set(${A_PREFIX}_SOURCES_MACOS_HEADERS
+		aclipboarddrivermacos.h
+	)
+
+	set(${A_PREFIX}_SOURCES_MACOS_CPP
+		aclipboarddrivermacos.cpp
+	)
+
+	set(${A_PREFIX}_SOURCES
+		${${A_PREFIX}_SOURCES}
+		${${A_PREFIX}_SOURCES_MACOS_HEADERS}
+		${${A_PREFIX}_SOURCES_MACOS_CPP}
+	)
+
+endif()
+
+if(IOS)
+
+	set(${A_PREFIX}_SOURCES_IOS_HEADERS
+		aclipboarddriverios.h
+		aclipboarddriveriosnative.h
+	)
+
+	set(${A_PREFIX}_SOURCES_IOS_OBJ_CPP
+		aclipboarddriverios.mm
+	)
+
+	set(${A_PREFIX}_SOURCES
+		${${A_PREFIX}_SOURCES}
+		${${A_PREFIX}_SOURCES_IOS_HEADERS}
+		${${A_PREFIX}_SOURCES_IOS_OBJ_CPP}
+	)
+
+endif()
+
+if(ANDROID)
+
+	set(${A_PREFIX}_SOURCES_ANDROID_HEADERS
+		aclipboarddriverandroid.h
+	)
+
+	set(${A_PREFIX}_SOURCES_ANDROID_CPP
+		aclipboarddriverandroid.cpp
+	)
+
+	set(${A_PREFIX}_SOURCES
+		${${A_PREFIX}_SOURCES}
+		${${A_PREFIX}_SOURCES_ANDROID_HEADERS}
+		${${A_PREFIX}_SOURCES_ANDROID_CPP}
+	)
+
+endif()
 
 set(${A_PREFIX}_SOURCES
 	${${A_PREFIX}_SOURCES}
@@ -85,6 +142,16 @@ target_link_libraries(${A_NAME_TARGET}
 	PUBLIC
 		ALogger
 )
+
+if(IOS)
+
+	target_link_libraries(${A_NAME_TARGET}
+		PRIVATE
+			"-framework Foundation"
+			"-framework UIKit"
+	)
+
+endif()
 
 target_compile_definitions(${A_NAME_TARGET}
 	PRIVATE

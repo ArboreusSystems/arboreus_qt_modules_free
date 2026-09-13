@@ -20,6 +20,12 @@
 #include <QClipboard>
 #include <QMimeData>
 #include <QStringList>
+#include <QTimer>
+
+// Android includes
+#if defined(Q_OS_ANDROID)
+#include <QJniObject>
+#endif
 
 // Application includes
 

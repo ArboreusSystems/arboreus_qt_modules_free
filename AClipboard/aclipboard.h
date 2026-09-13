@@ -23,6 +23,22 @@
 
 // Application includes
 #include <alogger.h>
+#include <aclipboarddriver.h>
+
+// MacOS includes
+#if defined(Q_OS_MACOS)
+#include <aclipboarddrivermacos.h>
+#endif
+
+// iOS includes
+#if defined(Q_OS_IOS)
+#include <aclipboarddriverios.h>
+#endif
+
+// Android includes
+#if defined(Q_OS_ANDROID)
+#include <aclipboarddriverandroid.h>
+#endif
 
 
 // Namesapces
@@ -52,6 +68,10 @@ class AClipboard : public QObject {
 
 		QString mTextPasteFrom(void);
 		void mTextCopyTo(QString inText);
+		void mTextCopySensitiveTo(QString inText);
+		void mTextCopySensitiveToAndClear(QString inText,int inTimeoutSeconds);
+
+		void mClear(void);
 
 	signals:
 
@@ -60,6 +80,11 @@ class AClipboard : public QObject {
 	private:
 
 		QClipboard* pClipboard = nullptr;
+		AClipboardDriver* pDriver = nullptr;
+
+	private slots:
+
+		void slClear(void);
 };
 
 } // namespace ARB

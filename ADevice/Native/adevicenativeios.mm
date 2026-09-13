@@ -65,7 +65,7 @@ ADeviceIOSNativehandler* gDeviceNativeIOSHandler = nullptr;
 	Doc.
 */
 
-ADeviceNativeIOS::ADeviceNativeIOS(QObject* parent) : ADeviceNative{parent} {
+ADeviceNativeIOS::ADeviceNativeIOS(QObject* parent) : ADeviceNative(parent) {
 	
 	_A_DEBUG << "ADeviceNativeIOS created";
 }
