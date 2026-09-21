@@ -108,8 +108,46 @@ void AApplication::mDeclareAction(QVariantList inAction) {
 	Doc.
 */
 
+QString AApplication::mVersionFull(void) {
+
+	return pConfig->AApplicationConfig_Application_VersionFull();
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+QString AApplication::mVersionShort(void) {
+
+	return pConfig->AApplicationConfig_Application_VersionShort();
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+QString AApplication::mVersionCode(void) {
+
+	return pConfig->AApplicationConfig_Application_VersionCode();
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
 void AApplication::mQuit(void) {
 
 	qApp->quit();
 }
-

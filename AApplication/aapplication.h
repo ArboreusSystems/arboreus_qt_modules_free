@@ -61,6 +61,9 @@ class AApplication : public AThreadTemplate<AApplicationService> {
 		void slInitiated(void);
 
 		void mDeclareAction(QVariantList inAction);
+		QString mVersionFull(void);
+		QString mVersionShort(void);
+		QString mVersionCode(void);
 		void mQuit(void);
 
 	signals:

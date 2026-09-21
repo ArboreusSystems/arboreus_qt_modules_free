@@ -43,6 +43,9 @@ class AApplicationConfig {
 		virtual QThread::Priority AApplicationConfig_Application_ThreadPriority(void) = 0;
 		virtual QString AApplicationConfig_Application_Organisation(void) = 0;
 		virtual QString AApplicationConfig_Application_Name(void) = 0;
+		virtual QString AApplicationConfig_Application_VersionFull(void) = 0;
+		virtual QString AApplicationConfig_Application_VersionShort(void) = 0;
+		virtual QString AApplicationConfig_Application_VersionCode(void) = 0;
 
 
 		// ------------------------
