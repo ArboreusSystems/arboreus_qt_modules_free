@@ -1,6 +1,6 @@
 // ----------------------------------------------------------
 /*!
-	\headerfile ADeviceNativeIOS
+	\headerfile ASecurityNativeAndroid
 	\title
 	\brief Template file wizard/classes/cpp/file.h
 
@@ -8,19 +8,21 @@
 	\li @notice Template file classes/file.h
 	\li @copyright Arboreus (http://arboreus.systems)
 	\li @author Alexandr Kirilov (http://alexandr.kirilov.me)
-	\li @created 22/06/2026 at 13:54:10
+	\li @created 21/09/2026 at 21:48:32
 	\endlist
 */
 // ----------------------------------------------------------
-#ifndef ADEVICENATIVEIOS_H
-#define ADEVICENATIVEIOS_H
+#ifndef APRIVACYNATIVEANDROID_H
+#define APRIVACYNATIVEANDROID_H
+
+// Precompiled includes
+#include <aprivacy_pch.h>
 
 // System includes
-#include <adevice_pch.h>
 
 // Application includes
-#include <adevicenative.h>
 #include <alogger.h>
+#include <aprivacynative.h>
 
 // Constants and definitions
 
@@ -28,18 +30,18 @@
 namespace ARB {
 
 // Class definitions
-class ADeviceNativeIOS : public ADeviceNative {
+class APrivacyNativeAndroid : public APrivacyNative {
 
 	Q_OBJECT
 
 	public:
 
-		explicit ADeviceNativeIOS(QObject* parent = nullptr);
-		virtual ~ADeviceNativeIOS(void);
+		explicit APrivacyNativeAndroid(QObject* parent = nullptr);
+		virtual ~APrivacyNativeAndroid(void);
 
-		void mInit(void) override;
+		virtual void mScreen(bool inMode) override;
 };
 
 } // namespace ARB
 
-#endif // ADEVICENATIVEIOS_H
+#endif // APRIVACYNATIVEANDROID_H
