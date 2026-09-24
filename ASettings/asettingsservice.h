@@ -46,6 +46,7 @@ class ASettingsService : public AThreadServiceTemplate {
 
 		QVariant mGetValue(QString inKey);
 		void mSetValue(QString inKey,QVariant inValue);
+		void mDeleteByKey(QString inKey);
 
 	public slots:
 

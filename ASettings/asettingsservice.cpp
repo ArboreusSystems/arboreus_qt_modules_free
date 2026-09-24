@@ -68,7 +68,20 @@ QVariant ASettingsService::mGetValue(QString inKey) {
 
 void ASettingsService::mSetValue(QString inKey, QVariant inValue) {
 
-	return pDriver->mSetValue(inKey,inValue);
+	pDriver->mSetValue(inKey,inValue);
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void ASettingsService::mDeleteByKey(QString inKey) {
+
+	pDriver->mDeleteByKey(inKey);
 }
 
 

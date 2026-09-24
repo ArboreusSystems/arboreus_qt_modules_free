@@ -36,6 +36,7 @@ class ASettingsDriver {
 
 		virtual QVariant mGetValue(QString inKey) = 0;
 		virtual void mSetValue(QString inKey,QVariant inValue) = 0;
+		virtual void mDeleteByKey(QString inKey) = 0;
 };
 
 } // namespace ARB

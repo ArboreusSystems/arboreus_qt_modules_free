@@ -50,7 +50,10 @@ set(${A_PREFIX}_SOURCES_HEADERS
 	${${A_PREFIX}_SOURCES_HEADERS}
 	asettings.h
 	asettingsservice.h
+	asettingsdriver.h
+	asettingsdatamodels.h
 	Agent/asettingsagentgetvalue.h
+	Agent/asettingsagentsetvalue.h
 )
 
 set(${A_PREFIX}_SOURCES_CPP
@@ -58,6 +61,7 @@ set(${A_PREFIX}_SOURCES_CPP
 	asettings.cpp
 	asettingsservice.cpp
 	Agent/asettingsagentgetvalue.cpp
+	Agent/asettingsagentsetvalue.cpp
 )
 
 set(${A_PREFIX}_SOURCES
@@ -83,9 +87,7 @@ find_package(Qt6 REQUIRED COMPONENTS Core)
 
 qt_standard_project_setup(REQUIRES 6.8)
 qt_add_library(${A_NAME_TARGET} STATIC ${${A_PREFIX}_SOURCES}
-	Agent/asettingsagentsetvalue.h Agent/asettingsagentsetvalue.cpp
-	asettingsdatamodels.h
-	asettingsdriver.h)
+	Agent/asettingsagentdeletebykey.h Agent/asettingsagentdeletebykey.cpp)
 
 target_link_libraries(${A_NAME_TARGET}
 	PRIVATE

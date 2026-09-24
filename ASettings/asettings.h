@@ -26,6 +26,7 @@
 #include <asettingsservice.h>
 #include <asettingsagentgetvalue.h>
 #include <asettingsagentsetvalue.h>
+#include <asettingsagentdeletebykey.h>
 #include <athreadobjectcontrollertemplate.h>
 #include <asettingsdriver.h>
 
@@ -52,12 +53,14 @@ class ASettings : public AThreadTemplate<ASettingsService> {
 
 		QVariant mGetValue(QString inKey);
 		void mSetValue(QString inKey,QVariant inValue);
+		void mDeleteByKey(QString inKey);
 
 	signals:
 
 		void sgInit(QObject* inDriver);
 		void sgInitiated(void);
 		void sgSetValue(QString inKey,QVariant inValue);
+		void sgDeletedByKey(QString inKey);
 
 };
 

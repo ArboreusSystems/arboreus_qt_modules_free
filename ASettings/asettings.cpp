@@ -152,3 +152,40 @@ void ASettings::mSetValue(QString inKey, QVariant inValue) {
 		_A_CRITICAL << "Can't set value " << inValue << "for key:" << inKey;
 	}
 }
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void ASettings::mDeleteByKey(QString inKey) {
+
+	AThreadObjectControllerTemplate oController;
+	QEventLoop oEventLoop;
+
+	ASettingsAgentDeleteByKey oAgent;
+	oAgent.pService = this->mService(),
+	oAgent.pKey = inKey;
+	QObject::connect(
+		&oAgent,&ASettingsAgentDeleteByKey::sgFinished,
+		&oEventLoop,&QEventLoop::quit
+	);
+	QObject::connect(
+		&oController,&AThreadObjectControllerTemplate::sgRun,
+		&oAgent,&ASettingsAgentDeleteByKey::slRun
+	);
+	oAgent.moveToThread(this);
+
+	emit oController.sgRun();
+	oEventLoop.exec();
+
+	if (oAgent.pOutput.pStatus == _A_ENUM_STATUS::Ok) {
+		_A_DEBUG << "Deleted by key " << inKey;
+		emit sgDeletedByKey(inKey);
+	} else {
+		_A_CRITICAL << "Can't deleted by key " << inKey;
+	}
+}
