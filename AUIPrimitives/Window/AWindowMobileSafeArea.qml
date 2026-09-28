@@ -31,27 +31,19 @@ Window {
 	property string pColorBackgroundContent: "steelblue";
 	property bool pBottomInput: false;
 	property alias pContentWrapper: oContentWrapper;
-	property bool pWindowMaximized: false;
 
 	id: oRoot;
 	objectName: oRoot.pObjectName;
 	visible: true;
-	flags: Qt.Window | Qt.MaximizeUsingFullscreenGeometryHint;
+	flags: Qt.Window | Qt.ExpandedClientAreaHint | Qt.NoTitleBarBackgroundHint;
 	title: oRoot.pTitle;
 	color: oRoot.pColorBackgroundScreen;
 
 	onVisibilityChanged: {
 
 		if (Qt.platform.os === "android") {
-			if (oRoot.visibility === Window.Hidden || oRoot.visibility === Window.Minimized) {
-				oRoot.pWindowMaximized = (oRoot.visibility === Window.Maximized)
-			} else if (oRoot.visibility === Window.FullScreen) {
-				if (!oRoot.pWindowMaximized) {
-					oRoot.visibility = Window.Windowed
-				} else {
-					oRoot.visibility = Window.Maximized
-				}
-			}
+			oRoot.visibility = Window.Windowed;
+			oRoot.mResize();
 		}
 	}
 
