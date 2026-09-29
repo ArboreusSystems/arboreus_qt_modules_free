@@ -35,7 +35,7 @@ Window {
 	id: oRoot;
 	objectName: oRoot.pObjectName;
 	visible: true;
-	flags: Qt.Window | Qt.ExpandedClientAreaHint | Qt.NoTitleBarBackgroundHint;
+	flags: Qt.platform.os === "osx" ? Qt.Window : Qt.Window | Qt.ExpandedClientAreaHint | Qt.NoTitleBarBackgroundHint;
 	title: oRoot.pTitle;
 	color: oRoot.pColorBackgroundScreen;
 
