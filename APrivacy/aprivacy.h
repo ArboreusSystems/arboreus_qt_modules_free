@@ -35,6 +35,7 @@
 #include <aprivacynativeandroid.h>
 #endif
 
+
 // Namespace
 namespace ARB {
 

@@ -81,8 +81,6 @@ void APrivacy::mInit(void) {
 
 void APrivacy::mScreen(bool inMode) {
 
-	_A_DEBUG << "APrivacy::mScreen";
-
 	pNative->mScreen(inMode);
 }
 

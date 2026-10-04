@@ -46,111 +46,110 @@ APrivacyNativeIOS* gASPrivacyNativeIOS = nullptr;
 }
 
 -(instancetype) init {
-    
-    self = [super init];
-    if (self) {
-        
-        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-        
-        [center addObserver:self selector:@selector(mShowPrivacyScreen) name:UIApplicationWillResignActiveNotification object:nil];
-        [center addObserver:self selector:@selector(mShowPrivacyScreen) name:UIApplicationDidEnterBackgroundNotification object:nil];
-        [center addObserver:self selector:@selector(mHidePrivateScreen) name:UIApplicationDidBecomeActiveNotification object:nil];
-        [center addObserver:self selector:@selector(mOnScreenshotDetected) name:UIApplicationUserDidTakeScreenshotNotification object:nil];
-        [center addObserver:self selector:@selector(mOnScreenRecordingChanged) name:UIScreenCapturedDidChangeNotification object:nil];
-        
-        [self setPAction:YES];
-    }
-    
-    return self;
+
+	self = [super init];
+	if (self) {
+
+		NSNotificationCenter* oCenter = [NSNotificationCenter defaultCenter];
+
+		[oCenter addObserver:self selector:@selector(mShowPrivacyScreen) name:UIApplicationWillResignActiveNotification object:nil];
+		[oCenter addObserver:self selector:@selector(mShowPrivacyScreen) name:UIApplicationDidEnterBackgroundNotification object:nil];
+		[oCenter addObserver:self selector:@selector(mHidePrivateScreen) name:UIApplicationDidBecomeActiveNotification object:nil];
+		[oCenter addObserver:self selector:@selector(mOnScreenshotDetected) name:UIApplicationUserDidTakeScreenshotNotification object:nil];
+		[oCenter addObserver:self selector:@selector(mOnScreenRecordingChanged) name:UIScreenCapturedDidChangeNotification object:nil];
+
+		[self setPAction:YES];
+	}
+
+	return self;
 }
 
 -(UIWindow*) mActiveWindow {
-    
-    for (UIScene* oScene in [UIApplication sharedApplication].connectedScenes) {
-        
-        if ([oScene isKindOfClass:[UIWindowScene class]]) {
-            
-            UIWindowScene* oWindowScene = (UIWindowScene*)oScene;
-            for (UIWindow* oWwindow in oWindowScene.windows) {
-                if (oWwindow.isKeyWindow) {
-                    return oWwindow;
-                }
-            }
 
-            if (oWindowScene.windows.count > 0) {
-                return oWindowScene.windows.firstObject;
-            }
-        }
-    }
-    
-    return nil;
+	for (UIScene* oScene in [UIApplication sharedApplication].connectedScenes) {
+
+		if ([oScene isKindOfClass:[UIWindowScene class]]) {
+
+			UIWindowScene* oWindowScene = (UIWindowScene*)oScene;
+			for (UIWindow* oWwindow in oWindowScene.windows) {
+				if (oWwindow.isKeyWindow) return oWwindow;
+			}
+
+			if (oWindowScene.windows.count > 0) return oWindowScene.windows.firstObject;
+		}
+	}
+
+	return nil;
 }
 
 -(void) mShowPrivacyScreen {
-    
-    if ([self pAction]) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            UIWindow* oWindow = [self mActiveWindow];
-            if (!oWindow) return;
 
-            if (!self.pPrivacyScreen) {
-            
-                UIBlurEffect* oBlur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-                UIVisualEffectView* oBlurView = [[UIVisualEffectView alloc] initWithEffect:oBlur];
-                oBlurView.frame = oWindow.bounds;
-                oBlurView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	if ([self pAction]) {
 
-                UILabel* oLabel = [[UILabel alloc] init];
-				oLabel.text = @"Data Modifier";
-                oLabel.textColor = [UIColor whiteColor];
-                oLabel.font = [UIFont boldSystemFontOfSize:20];
-                [oLabel sizeToFit];
-                oLabel.center = oBlurView.contentView.center;
-                oLabel.autoresizingMask =
-                    UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
-                    UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+		dispatch_async(dispatch_get_main_queue(), ^{
 
-                [oBlurView.contentView addSubview:oLabel];
-                self.pPrivacyScreen = oBlurView;
-            }
+			UIWindow* oWindow = [self mActiveWindow];
+			if (!oWindow) return;
 
-            [oWindow addSubview:self.pPrivacyScreen];
-            [oWindow bringSubviewToFront:self.pPrivacyScreen];
-            [oWindow layoutIfNeeded];
-        });
-    }
+			if (!self.pPrivacyScreen) {
+
+				UIBlurEffect* oBlur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+				UIVisualEffectView* oBlurView = [[UIVisualEffectView alloc] initWithEffect:oBlur];
+				[oBlurView setFrame:oWindow.bounds];
+				[oBlurView setAutoresizingMask:
+					UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
+				];
+
+				UILabel* oLabel = [[UILabel alloc] init];
+				[oLabel setText:@"Data Modifier"];
+				[oLabel setTextColor:[UIColor whiteColor]];
+				[oLabel setFont:[UIFont boldSystemFontOfSize:20]];
+				[oLabel sizeToFit];
+				[oLabel setCenter:oBlurView.contentView.center];
+				[oLabel setAutoresizingMask:
+					UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
+					UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
+				];
+
+				[oBlurView.contentView addSubview:oLabel];
+				[self setPPrivacyScreen:oBlurView];
+			}
+
+			[oWindow addSubview:self.pPrivacyScreen];
+			[oWindow bringSubviewToFront:self.pPrivacyScreen];
+			[oWindow layoutIfNeeded];
+		});
+	}
 }
 
 -(void) mHidePrivateScreen {
-    
-    if ([self pAction]) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            if (self.pPrivacyScreen) {
-                [self.pPrivacyScreen removeFromSuperview];
-                self.pPrivacyScreen = nil;
-            }
-        });
-    }
+
+	if ([self pAction]) {
+
+		dispatch_async(dispatch_get_main_queue(), ^{
+
+			if (self.pPrivacyScreen) {
+				[self.pPrivacyScreen removeFromSuperview];
+				[self setPPrivacyScreen:nil];
+			}
+		});
+	}
 }
 
 -(void) mOnScreenshotDetected {
-    
+
 	if ([self pAction]) gASPrivacyNativeIOS->mScreenshotTakenHandler();
 }
 
 -(void) mOnScreenRecordingChanged {
-    
-    if ([self pAction]) {
-        if ([UIScreen mainScreen].isCaptured) {
+
+	if ([self pAction]) {
+		if ([UIScreen mainScreen].isCaptured) {
 			gASPrivacyNativeIOS->mScreenRecordingHandler(true);
-        } else {
-            gASPrivacyNativeIOS->mScreenRecordingHandler(false);
-        }
-    }
+		} else {
+			gASPrivacyNativeIOS->mScreenRecordingHandler(false);
+		}
+	}
 }
 
 @end
@@ -162,7 +161,6 @@ APrivacyNativeIOS* gASPrivacyNativeIOS = nullptr;
 
 QT_BEGIN_NAMESPACE
 
-
 // -----------
 /*!
 	\fn
@@ -171,11 +169,11 @@ QT_BEGIN_NAMESPACE
 */
 
 APrivacyNativeIOS::APrivacyNativeIOS(QObject* parent) : APrivacyNative(parent) {
-    
-    @autoreleasepool {
+
+	@autoreleasepool {
 		gAPrivacyNativeIOSHandler = [APrivacyNativeIOSHandler mInstance];
 		gASPrivacyNativeIOS = this;
-    }
+	}
 
 	_A_DEBUG << "ASPrivacyNativeIOS created";
 }
@@ -191,7 +189,7 @@ APrivacyNativeIOS::APrivacyNativeIOS(QObject* parent) : APrivacyNative(parent) {
 APrivacyNativeIOS::~APrivacyNativeIOS(void) {
 
 	gAPrivacyNativeIOSHandler = nullptr;
-    gASPrivacyNativeIOS = nullptr;
+	gASPrivacyNativeIOS = nullptr;
 
 	_A_DEBUG << "ASPrivacyNativeIOS deleted";
 }
@@ -205,14 +203,12 @@ APrivacyNativeIOS::~APrivacyNativeIOS(void) {
 */
 
 void APrivacyNativeIOS::mScreen(bool inMode) {
-    
-	_A_DEBUG << "APrivacyNativeIOS::mScreen";
 
-    if (inMode) {
-        [gAPrivacyNativeIOSHandler setPAction: YES];
-    } else {
-        [gAPrivacyNativeIOSHandler setPAction: NO];
-    }
+	if (inMode) {
+		[gAPrivacyNativeIOSHandler setPAction: YES];
+	} else {
+		[gAPrivacyNativeIOSHandler setPAction: NO];
+	}
 }
 
 
@@ -225,9 +221,9 @@ void APrivacyNativeIOS::mScreen(bool inMode) {
 
 void APrivacyNativeIOS::mScreenshotTakenHandler(void) {
 
-	emit this->sgScreenshotTaken();
+	_A_DEBUG << "Screenshot taken";
 
-	_A_DEBUG << "Screenshot taken 1111222";
+	emit this->sgScreenshotTaken();
 }
 
 
@@ -239,12 +235,10 @@ void APrivacyNativeIOS::mScreenshotTakenHandler(void) {
 */
 
 void APrivacyNativeIOS::mScreenRecordingHandler(bool inCaptured) {
-    
-	emit this->sgScreenRecordingChanged(inCaptured);
 
 	_A_DEBUG << "Screen recording status changed" << inCaptured;
+
+	emit this->sgScreenRecordingChanged(inCaptured);
 }
 
-
 QT_END_NAMESPACE
-
