@@ -92,4 +92,42 @@ void ADeviceNativeAndroid::mStatusBarStyle(_A_ENUM_DEVICE_STATUS_BAR_STYLE inSty
 }
 
 
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+QString ADeviceNativeAndroid::mVendor(void) {
+
+	QJniObject oManufacturer = QJniObject::getStaticObjectField(
+		"android/os/Build",
+		"MANUFACTURER",
+		"Ljava/lang/String;"
+	);
+
+	return oManufacturer.toString();
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+QString ADeviceNativeAndroid::mBrand(void) {
+
+	QJniObject oBrand = QJniObject::getStaticObjectField(
+		"android/os/Build",
+		"BRAND",
+		"Ljava/lang/String;"
+	);
+
+	return oBrand.toString();
+}
+
+
 

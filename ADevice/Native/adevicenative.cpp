@@ -88,3 +88,31 @@ _A_ENUM_DEVICE_TYPE ADeviceNative::mType(void) {
 
 void ADeviceNative::mStatusBarStyle(AEnumStatusBarStyle::AStatusBarStyle inStyle) {}
 
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+QString ADeviceNative::mVendor(void) {
+
+	QString oOutput = "Undefined";
+	return oOutput;
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+QString ADeviceNative::mBrand() {
+
+	QString oOutput = "Undefined";
+	return oOutput;
+}
+

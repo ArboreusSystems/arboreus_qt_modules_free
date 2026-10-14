@@ -37,7 +37,7 @@ ADevice::ADevice(QObject* parent) : QObject(parent) {
 		this,&ADevice::slOrientationChanged
 	);
 
-#ifdef Q_OS_IOS
+#if defined(Q_OS_IOS)
 	pPlatform = _A_ENUM_PLATFORM::IOS;
 	pNative = new ADeviceNativeIOS(this);
 #elif defined(Q_OS_ANDROID)
@@ -45,6 +45,9 @@ ADevice::ADevice(QObject* parent) : QObject(parent) {
 	pNative = new ADeviceNativeAndroid(this);
 #elif defined(Q_OS_MACOS)
 	pPlatform = _A_ENUM_PLATFORM::MacOS;
+	pNative = new ADeviceNativeMacOS(this);
+#else
+	pPlatform = _A_ENUM_PLATFORM::Undefined;
 	pNative = new ADeviceNative(this);
 #endif
 
@@ -109,6 +112,32 @@ _A_ENUM_DEVICE_TYPE ADevice::mType(void) {
 _A_ENUM_PLATFORM ADevice::mPlatform(void) {
 
 	return pPlatform;
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+QString ADevice::mVendor(void) {
+
+	return pNative->mVendor();
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+QString ADevice::mBrand(void) {
+
+	return pNative->mBrand();
 }
 
 

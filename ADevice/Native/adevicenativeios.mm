@@ -13,36 +13,16 @@
 */
 // ----------------------------------------------------------
 
-// Precompiled includes
-#include <adevice_pch.h>
-
-// System includes
-
-// Application includes
-#include <adevicenativeioshandler.h>
-
-// Constants and definitions
-
 // Class header
 #include "adevicenativeios.h"
+
+// Private includes
+#include <adevicenativeiosprivate.h>
 
 
 // -----------
 // IOS part
 // -----------
-
-@implementation ADeviceIOSNativehandler
-
--(instancetype) init {
-	
-	self = [super init];
-	if (self) {
-		
-	}
-	return self;
-}
-
-@end
 
 
 // -----------
@@ -53,9 +33,6 @@ QT_BEGIN_NAMESPACE
 
 // Namespace
 using namespace ARB;
-
-// Global variables
-ADeviceIOSNativehandler* gDeviceNativeIOSHandler = nullptr;
 
 
 // -----------
@@ -93,9 +70,45 @@ ADeviceNativeIOS::~ADeviceNativeIOS(void) {
 
 void ADeviceNativeIOS::mInit(void) {
 
-	gDeviceNativeIOSHandler = [[ADeviceIOSNativehandler alloc] init];
-
 	_A_DEBUG << "ADeviceNativeIOS initiated";
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+QString ADeviceNativeIOS::mVendor(void) {
+
+	QString oOutput = "Apple";
+	return oOutput;
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+QString ADeviceNativeIOS::mBrand(void) {
+
+	QString oOutput	= "Undefined";
+
+	UIUserInterfaceIdiom oIdiom = [UIDevice currentDevice].userInterfaceIdiom;
+	if (oIdiom == UIUserInterfaceIdiomPhone) {
+		oOutput = "iPhone";
+	} else if (oIdiom == UIUserInterfaceIdiomPad) {
+		oOutput = "iPad";
+	} else {
+		oOutput = "OtheriOS";
+	}
+
+	return oOutput;
 }
 
 QT_END_NAMESPACE

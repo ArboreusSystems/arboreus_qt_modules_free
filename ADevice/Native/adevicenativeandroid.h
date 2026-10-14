@@ -38,7 +38,10 @@ class ADeviceNativeAndroid : public ADeviceNative {
 		virtual ~ADeviceNativeAndroid(void);
 
 		void mInit(void) override;
+
 		void mStatusBarStyle(_A_ENUM_DEVICE_STATUS_BAR_STYLE inStyle) override;
+		QString mVendor(void) override;
+		QString mBrand(void) override;
 };
 
 } // namespace ARB

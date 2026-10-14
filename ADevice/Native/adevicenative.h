@@ -42,8 +42,11 @@ class ADeviceNative : public QObject {
 		virtual ~ADeviceNative(void);
 
 		virtual void mInit(void);
+
 		virtual _A_ENUM_DEVICE_TYPE mType(void);
 		virtual void mStatusBarStyle(_A_ENUM_DEVICE_STATUS_BAR_STYLE inStyle);
+		virtual QString mVendor(void);
+		virtual QString mBrand(void);
 };
 
 } // namespace ARB

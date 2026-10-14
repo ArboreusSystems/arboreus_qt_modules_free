@@ -87,9 +87,24 @@ set(${A_PREFIX}_INCLUDE_DIR_PUBLIC
 ## ----------------------------------------
 ## Platforms settings
 
-if(APPLE)
+if(APPLE AND CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 
 	enable_language(OBJC OBJCXX Swift)
+
+	set(${A_PREFIX}_SOURCES_MACOS_OBJC_HEADERS
+		Native/adevicenativemacos.h
+		Native/adevicenativemacosprivate.h
+	)
+
+	set(${A_PREFIX}_SOURCES_MACOS_OBJC
+		Native/adevicenativemacos.mm
+	)
+
+	set(${A_PREFIX}_SOURCES
+		${${A_PREFIX}_SOURCES}
+		${${A_PREFIX}_SOURCES_MACOS_OBJC_HEADERS}
+		${${A_PREFIX}_SOURCES_MACOS_OBJC}
+	)
 
 endif()
 
@@ -99,7 +114,7 @@ if(IOS)
 
 	set(${A_PREFIX}_SOURCES_IOS_OBJC_HEADERS
 		Native/adevicenativeios.h
-		Native/adevicenativeioshandler.h
+		Native/adevicenativeiosprivate.h
 	)
 
 	set(${A_PREFIX}_SOURCES_IOS_OBJC
@@ -143,6 +158,17 @@ find_package(Qt6 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup(REQUIRES 6.8)
 qt_add_library(${A_NAME_TARGET} STATIC ${${A_PREFIX}_SOURCES})
+
+if(APPLE AND CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+
+	target_link_libraries(${A_NAME_TARGET}
+		PRIVATE
+			"-framework AppKit"
+			"-framework CoreFoundation"
+			"-framework IOKit"
+	)
+
+endif()
 
 target_link_libraries(${A_NAME_TARGET}
 	PRIVATE

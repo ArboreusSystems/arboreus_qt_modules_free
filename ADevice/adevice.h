@@ -29,6 +29,11 @@
 #include <adevicenative.h>
 #include <akeyboard.h>
 
+// MacOS includes
+#if defined(Q_OS_MACOS)
+#include <adevicenativemacos.h>
+#endif
+
 // iOS includes
 #ifdef Q_OS_IOS
 #include <adevicenativeios.h>
@@ -69,8 +74,10 @@ class ADevice : public QObject {
 
 		_A_ENUM_DEVICE_TYPE mType(void);
 		_A_ENUM_PLATFORM mPlatform(void);
+		QString mVendor(void);
+		QString mBrand(void);
 		bool mIsLandscape(void);
-		void mStatusBarStyle(ARB::AEnumStatusBarStyle::AStatusBarStyle inStyle);
+		void mStatusBarStyle(ARB::AEnumStatusBarStyle::AStatusBarStyle inStyle);		
 
 	signals:
 

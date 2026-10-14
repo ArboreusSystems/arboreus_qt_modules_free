@@ -38,6 +38,8 @@ class ADeviceNativeIOS : public ADeviceNative {
 		virtual ~ADeviceNativeIOS(void);
 
 		void mInit(void) override;
+		QString mVendor() override;
+		QString mBrand() override;
 };
 
 } // namespace ARB

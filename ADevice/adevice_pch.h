@@ -22,9 +22,16 @@
 #include <QScreen>
 #include <QRectF>
 #include <QInputMethod>
+#include <QByteArray>
+
+// MacOS includes
+#if defined(Q_OS_MACOS)
+#include <sys/types.h>
+#include <sys/sysctl.h>
+#endif
 
 // Android includes
-#ifdef Q_OS_ANDROID
+#if defined(Q_OS_ANDROID)
 #include <QJniObject>
 #include <QCoreApplication>
 #endif
