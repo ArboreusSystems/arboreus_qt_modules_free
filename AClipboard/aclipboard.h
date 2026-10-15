@@ -66,12 +66,17 @@ class AClipboard : public QObject {
 		bool mHasColor(void);
 		bool mHasHTML(void);
 
-		QString mTextPasteFrom(void);
-		void mTextCopyTo(QString inText);
-		void mTextCopySensitiveTo(QString inText);
-		void mTextCopySensitiveToAndClear(QString inText,int inTimeoutSeconds);
+		void mTextCopy(QString inText);
+		void mTextCopyPrivate(QString inText);
+		void mTextCopyPrivateAndClear(QString inText,int inTimeoutSeconds);
 
 		void mClear(void);
+        void mClearAfter(int inTimeSeconds);
+
+		void mFlood(void);
+		void mFloodAfter(int inTimeSeconds);
+
+		QString mTextPaste(void);
 
 	signals:
 
@@ -81,10 +86,6 @@ class AClipboard : public QObject {
 
 		QClipboard* pClipboard = nullptr;
 		AClipboardDriver* pDriver = nullptr;
-
-	private slots:
-
-		void slClear(void);
 };
 
 } // namespace ARB

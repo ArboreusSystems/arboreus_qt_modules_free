@@ -67,11 +67,27 @@ AClipboardDriver::~AClipboardDriver(void) {
 	Doc.
 */
 
-void AClipboardDriver::mTextCopySensitiveTo(QString inText) {
+void AClipboardDriver::mTextCopyPrivate(QString inText) {
 
 	Q_UNUSED(inText);
 
-	_A_INFO << "AClipboardDriver unsupported platform for copying sensitive text";
+    _A_INFO << "AClipboardDriver unsupported platform for copying private text";
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void AClipboardDriver::mTextCopyPrivateAndClear(QString inText, int inTimeoutSeconds) {
+
+	Q_UNUSED(inText);
+	Q_UNUSED(inTimeoutSeconds);
+
+	_A_INFO << "AClipboardDriver unsupported platform for copying private text and clear";
 }
 
 
@@ -85,4 +101,59 @@ void AClipboardDriver::mTextCopySensitiveTo(QString inText) {
 void AClipboardDriver::mClear(void) {
 
 	_A_INFO << "AClipboardDriver unsupported platform for clearing";
+}
+
+
+// -----------
+/*!
+    \fn
+
+    Doc.
+*/
+
+void AClipboardDriver::mClearAfter(int inTimeSeconds) {
+
+	_A_INFO << "AClipboardDriver unsupported platform for clearing after";
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void AClipboardDriver::mFlood(void) {
+
+	_A_INFO << "AClipboardDriver unsupported platform for flooding";
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void AClipboardDriver::mFloodAfter(int inTimeSeconds) {
+
+	_A_INFO << "AClipboardDriver unsupported platform for flooding after";
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+QString AClipboardDriver::mTextPaste(void) {
+
+	_A_INFO << "AClipboardDriver unsupported platform for text pasting";
+
+	QString oOutput;
+	return oOutput;
 }

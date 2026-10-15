@@ -26,6 +26,11 @@
 
 // Constants and definitions
 
+// Global functions
+void fAClipboardDriverIOS_TextCopyPrivate(QString& inText);
+void fAClipboardDriverIOS_TextCopyPrivateAndClear(QString& inText,int inTimeSeconds);
+void fAClipboardDriverIOS_Clear(void);
+void fAClipboardDriverIOS_ClearAfter(int inTimeSeconds);
 
 // Namesapces
 namespace ARB {
@@ -41,8 +46,16 @@ class AClipboardDriverIOS : public AClipboardDriver {
 		explicit AClipboardDriverIOS(QClipboard* inClipboard,QObject* parent = nullptr);
 		virtual ~AClipboardDriverIOS(void);
 
-		virtual void mTextCopySensitiveTo(QString inText);
-		virtual void mClear(void);
+		void mTextCopyPrivate(QString inText) override;
+		void mTextCopyPrivateAndClear(QString inText,int inTimeSeconds) override;
+
+		void mClear(void) override;
+		void mClearAfter(int inTimeSeconds) override;
+
+		void mFlood(void) override;
+		void mFloodAfter(int inTimeSeconds) override;
+
+		QString mTextPaste(void) override;
 };
 
 } // namespace ARB

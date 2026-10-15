@@ -65,6 +65,7 @@ void AClipboard::mInit(void) {
 	emit sgInitiated();
 }
 
+
 // -----------
 /*!
 	\fn
@@ -179,22 +180,7 @@ bool AClipboard::mHasHTML(void) {
 	Doc.
 */
 
-QString AClipboard::mTextPasteFrom(void) {
-
-	QString oOutput = "";
-	if (mHasText()) oOutput = pClipboard->text();
-	return oOutput;
-}
-
-
-// -----------
-/*!
-	\fn
-
-	Doc.
-*/
-
-void AClipboard::mTextCopyTo(QString inText) {
+void AClipboard::mTextCopy(QString inText) {
 
 	pClipboard->setText(inText,QClipboard::Clipboard);
 }
@@ -207,9 +193,9 @@ void AClipboard::mTextCopyTo(QString inText) {
 	Doc.
 */
 
-void AClipboard::mTextCopySensitiveTo(QString inText) {
+void AClipboard::mTextCopyPrivate(QString inText) {
 
-	pDriver->mTextCopySensitiveTo(inText);
+	pDriver->mTextCopyPrivate(inText);
 }
 
 
@@ -220,10 +206,9 @@ void AClipboard::mTextCopySensitiveTo(QString inText) {
 	Doc.
 */
 
-void AClipboard::mTextCopySensitiveToAndClear(QString inText,int inTimeoutSeconds) {
+void AClipboard::mTextCopyPrivateAndClear(QString inText,int inTimeoutSeconds) {
 
-	pDriver->mTextCopySensitiveTo(inText);
-	QTimer::singleShot(inTimeoutSeconds * 1000,this,&AClipboard::slClear);
+	pDriver->mTextCopyPrivateAndClear(inText,inTimeoutSeconds);
 }
 
 
@@ -236,7 +221,6 @@ void AClipboard::mTextCopySensitiveToAndClear(QString inText,int inTimeoutSecond
 
 void AClipboard::mClear(void) {
 
-	pClipboard->clear();
 	pDriver->mClear();
 }
 
@@ -248,7 +232,44 @@ void AClipboard::mClear(void) {
 	Doc.
 */
 
-void AClipboard::slClear(void) {
+void AClipboard::mClearAfter(int inTimeSeconds) {
 
-	this->mClear();
+	pDriver->mClearAfter(inTimeSeconds);
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void AClipboard::mFlood(void) {
+
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void AClipboard::mFloodAfter(int inTimeSeconds) {
+
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+QString AClipboard::mTextPaste(void) {
+
+	return pDriver->mTextPaste();
 }

@@ -21,6 +21,8 @@
 #include <QMimeData>
 #include <QStringList>
 #include <QTimer>
+#include <QChar>
+#include <QProcess>
 
 // Android includes
 #if defined(Q_OS_ANDROID)

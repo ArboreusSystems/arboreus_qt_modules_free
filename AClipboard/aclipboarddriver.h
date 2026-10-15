@@ -36,12 +36,22 @@ class AClipboardDriver : public QObject {
 
 	public:
 
+		QString pSignature = "undefined";
+
 		explicit AClipboardDriver(QObject* parent = nullptr);
 		explicit AClipboardDriver(QClipboard* inClipboard,QObject* parent = nullptr);
 		virtual ~AClipboardDriver(void);
 
-		virtual void mTextCopySensitiveTo(QString inText);
+        virtual void mTextCopyPrivate(QString inText);
+		virtual void mTextCopyPrivateAndClear(QString inText,int inTimeoutSeconds);
+
 		virtual void mClear(void);
+        virtual void mClearAfter(int inTimeSeconds);
+
+		virtual void mFlood(void);
+		virtual void mFloodAfter(int inTimeSeconds);
+
+		virtual QString mTextPaste(void);
 
 	protected:
 

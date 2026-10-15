@@ -64,14 +64,14 @@ if(APPLE AND CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 		aclipboarddrivermacos.h
 	)
 
-	set(${A_PREFIX}_SOURCES_MACOS_CPP
-		aclipboarddrivermacos.cpp
+	set(${A_PREFIX}_SOURCES_MACOS_OBJ_CPP
+		aclipboarddrivermacos.mm
 	)
 
 	set(${A_PREFIX}_SOURCES
 		${${A_PREFIX}_SOURCES}
 		${${A_PREFIX}_SOURCES_MACOS_HEADERS}
-		${${A_PREFIX}_SOURCES_MACOS_CPP}
+		${${A_PREFIX}_SOURCES_MACOS_OBJ_CPP}
 	)
 
 endif()
@@ -149,6 +149,16 @@ if(IOS)
 		PRIVATE
 			"-framework Foundation"
 			"-framework UIKit"
+	)
+
+endif()
+
+if(APPLE AND CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+
+	target_link_libraries(${A_NAME_TARGET}
+		PRIVATE
+			"-framework Foundation"
+			"-framework AppKit"
 	)
 
 endif()
