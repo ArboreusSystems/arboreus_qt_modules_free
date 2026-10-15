@@ -53,7 +53,46 @@ ATextEditMobile::~ATextEditMobile(void) {}
 	Doc.
 */
 
+bool ATextEditMobile::mIsContextMenuProhibited(void) const {
+
+	return pIsContextMenuProhibited;
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void ATextEditMobile::mSetProhibitContextMenu(bool inProhibit) {
+
+	if (pIsContextMenuProhibited != inProhibit) {
+		pIsContextMenuProhibited = inProhibit;
+		emit sgPProhibitContextMenuChanged();
+	}
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
 bool ATextEditMobile::eventFilter(QObject* inWatched, QEvent* inEvent) {
+
+#if defined(Q_OS_IOS) || defined(Q_OS_ANDROID)
+	if (inWatched == this && pIsContextMenuProhibited) {
+
+		if (inEvent->type() == QEvent::ContextMenu) {
+			inEvent->accept();
+			return true;
+		}
+	}
+#endif
 
 #ifdef Q_OS_IOS
 

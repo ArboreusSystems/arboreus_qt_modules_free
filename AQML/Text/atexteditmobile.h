@@ -31,15 +31,27 @@ class ATextEditMobile : public QQuickTextEdit {
 
 	Q_OBJECT
 	QML_ELEMENT
+	Q_PROPERTY(bool pProhibitContextMenu READ mIsContextMenuProhibited WRITE mSetProhibitContextMenu NOTIFY sgPProhibitContextMenuChanged)
 
 	public:
 
 		explicit ATextEditMobile(QQuickItem* parent = nullptr);
 		virtual ~ATextEditMobile(void);
 
+		bool mIsContextMenuProhibited() const;
+		void mSetProhibitContextMenu(bool inProhibit);
+
+	signals:
+
+		void sgPProhibitContextMenuChanged();
+
 	protected:
 
 		bool eventFilter(QObject* inWatched, QEvent* inEvent);
+
+	private:
+
+		bool pIsContextMenuProhibited = true;
 };
 
 } // namespace ARB
