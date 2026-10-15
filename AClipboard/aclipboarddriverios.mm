@@ -227,7 +227,7 @@ AClipboardDriverIOS::~AClipboardDriverIOS(void) {
 	Doc.
 */
 
-void AClipboardDriverIOS::mTextCopyPrivate(QString inText) {
+void AClipboardDriverIOS::mTextCopyPrivate(QString& inText) {
 
 	fAClipboardDriverIOS_TextCopyPrivate(inText);
 }
@@ -240,7 +240,7 @@ void AClipboardDriverIOS::mTextCopyPrivate(QString inText) {
 	Doc.
 */
 
-void AClipboardDriverIOS::mTextCopyPrivateAndClear(QString inText, int inTimeSeconds) {
+void AClipboardDriverIOS::mTextCopyPrivateAndClear(QString& inText, int inTimeSeconds) {
 
 	fAClipboardDriverIOS_TextCopyPrivateAndClear(inText,inTimeSeconds);
 }
