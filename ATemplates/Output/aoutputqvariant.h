@@ -37,6 +37,9 @@ class AOutputQVariant {
 		int pCode = 0;
 		QVariant pValue = QVariant::fromValue(0);
 
+		AOutputQVariant(const AOutputQVariant&) = delete;
+		AOutputQVariant& operator=(const AOutputQVariant&) = delete;
+
 
 		// -----------
 		/*!
@@ -141,32 +144,42 @@ class AOutputQVariant {
 
 			if (!pValue.isValid() || pValue.isNull()) return;
 
-			if (pValue.canConvert<QString>()) {
-				QString oStr = pValue.toString();
-				if (!oStr.isEmpty()) {
-					oStr.detach();
-					QChar* oRawData = oStr.data();
-					for (int i = 0; i < oStr.length(); ++i) oRawData[i] = QChar(0);
-					oStr.clear();
-					oStr.squeeze();
+			const int oUserType = pValue.userType();
+
+			if (oUserType == QMetaType::QString) {
+				QString oString = pValue.value<QString>();
+				if (!oString.isEmpty()) {
+					oString.detach();
+					QChar* pRawHeapData = oString.data();
+					for (int i = 0; i < oString.length(); ++i) {
+						pRawHeapData[i] = QChar(0);
+					}
+					oString.clear();
+					oString.squeeze();
 				}
-			} else if (pValue.canConvert<QByteArray>()) {
-				QByteArray oBytes = pValue.toByteArray();
+				pValue = QVariant(QString(""));
+			} else if (oUserType == QMetaType::QByteArray) {
+				QByteArray oBytes = pValue.value<QByteArray>();
 				if (!oBytes.isEmpty()) {
 					oBytes.detach();
-					volatile char* oRawBytes = const_cast<volatile char*>(oBytes.constData());
-					for (int i = 0; i < oBytes.size(); ++i) oRawBytes[i] = 0;
+					volatile char* pVolatileBytes = oBytes.data();
+					for (int i = 0; i < oBytes.size(); ++i) pVolatileBytes[i] = 0;
 					oBytes.clear();
 					oBytes.squeeze();
 				}
-			} else if (pValue.canConvert<QVariantMap>()) {
+				pValue = QVariant(QByteArray());
+			} else if (oUserType == QMetaType::QVariantMap) {
 				QVariantMap oMap = pValue.toMap();
 				oMap.clear();
-			} else if (pValue.canConvert<QVariantList>()) {
+				pValue = QVariant(QVariantMap());
+			} else if (oUserType == QMetaType::QVariantList) {
 				QVariantList oList = pValue.toList();
 				oList.clear();
+				pValue = QVariant(QVariantList());
 			}
 
+			pValue.clear();
+			pValue = QVariant::fromValue(0);
 			pValue = QVariant();
 		}
 };
