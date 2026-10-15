@@ -19,6 +19,268 @@
 // Namespace
 using namespace ARB;
 
+// Global variables
+static std::atomic<uint64_t> g_oCurrentCopyTaskId{0};
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void fAClipboardDriverAndroid_TextCopyPrivate(QString& inText) {
+
+	if (inText.isEmpty()) return;
+
+	auto* oInterface = qApp->nativeInterface<QNativeInterface::QAndroidApplication>();
+	if (!oInterface) {
+		_A_WARNING << "Native Android application interface is unavailable";
+		return;
+	}
+
+	const int oTextLength = inText.length();
+	auto oBuffer = std::shared_ptr<ushort[]>(new ushort[oTextLength]);
+
+	const QChar* rawData = inText.constData();
+	for (int i = 0; i < oTextLength; ++i) {
+		oBuffer[i] = rawData[i].unicode();
+	}
+
+	QChar* oOriginalData = inText.data();
+	for (int i = 0; i < oTextLength; ++i) {
+		oOriginalData[i] = QChar(0);
+	}
+	inText.clear();
+	inText.squeeze();
+
+	oInterface->runOnAndroidMainThread([oInterface,oBuffer,oTextLength]() {
+
+		QJniObject oActivity = oInterface->context();
+		if (!oActivity.isValid()) return;
+
+		QJniEnvironment oEnvironment;
+		if (oEnvironment->ExceptionCheck()) oEnvironment->ExceptionClear();
+
+		{
+			jstring oJavaString = oEnvironment->NewString(reinterpret_cast<const jchar*>(oBuffer.get()), oTextLength);
+			QJniObject oJavaText(oJavaString);
+			QJniObject oMimeType = QJniObject::fromString("text/plain");
+
+			QJniObject oActionSend = QJniObject::getStaticObjectField(
+				"android/content/Intent",
+				"ACTION_SEND",
+				"Ljava/lang/String;"
+			);
+
+			QJniObject oIntent(
+				"android/content/Intent",
+				"(Ljava/lang/String;)V",
+				oActionSend.object()
+			);
+			if (oIntent.isValid()) {
+
+				oIntent.callObjectMethod(
+					"setType",
+					"(Ljava/lang/String;)Landroid/content/Intent;",
+					oMimeType.object()
+				);
+
+				jint flagNewTask = QJniObject::getStaticField<jint>("android/content/Intent","FLAG_ACTIVITY_NEW_TASK");
+				oIntent.callObjectMethod("addFlags", "(I)Landroid/content/Intent;", flagNewTask);
+
+				oIntent.callObjectMethod(
+					"putExtra",
+					"(Ljava/lang/String;Z)V",
+					QJniObject::fromString("android.content.extra.IS_SENSITIVE").object(),
+					true
+				);
+
+				QJniObject oExtraTextKey = QJniObject::getStaticObjectField(
+					"android/content/Intent",
+					"EXTRA_TEXT",
+					"Ljava/lang/String;"
+				);
+
+				oIntent.callObjectMethod(
+					"putExtra",
+					"(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;",
+					oExtraTextKey.object(),
+					oJavaText.object()
+				);
+
+				QJniObject oChooserTitle = QJniObject::fromString("Private text");
+
+				QJniObject oChooserIntent = QJniObject::callStaticObjectMethod(
+					"android/content/Intent",
+					"createChooser",
+					"(Landroid/content/Intent;Ljava/lang/CharSequence;)Landroid/content/Intent;",
+					oIntent.object(),
+					oChooserTitle.object()
+				);
+
+				if (oChooserIntent.isValid()) {
+					oActivity.callMethod<void>("startActivity", "(Landroid/content/Intent;)V", oChooserIntent.object());
+					_A_DEBUG << "Private text copied to clipboard";
+				}
+			}
+
+			if (oJavaString) oEnvironment->DeleteLocalRef(oJavaString);
+		}
+
+		for (int i = 0; i < oTextLength; ++i) oBuffer[i] = 0;
+
+		if (oEnvironment->ExceptionCheck()) oEnvironment->ExceptionClear();
+	});
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void fAClipboardDriverAndroid_TextCopyPrivateAndClear(QString& inText, int inTimeSeconds) {
+
+	if (inText.isEmpty()) return;
+
+	auto* oInterface = qApp->nativeInterface<QNativeInterface::QAndroidApplication>();
+	if (!oInterface) {
+		_A_WARNING << "Native Android application interface is unavailable";
+		return;
+	}
+
+	const uint64_t oAssignedTaskId = ++g_oCurrentCopyTaskId;
+
+	const int oTextLength = inText.length();
+	auto oBuffer = std::shared_ptr<ushort[]>(new ushort[oTextLength]);
+
+	const QChar* rawData = inText.constData();
+	for (int i = 0; i < oTextLength; ++i) {
+		oBuffer[i] = rawData[i].unicode();
+	}
+
+	QChar* oOriginalData = inText.data();
+	for (int i = 0; i < oTextLength; ++i) {
+		oOriginalData[i] = QChar(0);
+	}
+	inText.clear();
+	inText.squeeze();
+
+
+	oInterface->runOnAndroidMainThread([oInterface, oBuffer, oTextLength, inTimeSeconds, oAssignedTaskId]() {
+
+		if (oAssignedTaskId != g_oCurrentCopyTaskId.load()) {
+			_A_DEBUG << "Stale copy task intercepted. Aborting execution sequence.";
+			for (int i = 0; i < oTextLength; ++i) oBuffer[i] = 0;
+			return;
+		}
+
+		QJniObject oActivity = oInterface->context();
+		if (!oActivity.isValid()) return;
+
+		QJniEnvironment oEnvironment;
+		if (oEnvironment->ExceptionCheck()) oEnvironment->ExceptionClear();
+
+		{
+			jstring oJavaString = oEnvironment->NewString(reinterpret_cast<const jchar*>(oBuffer.get()), oTextLength);
+			QJniObject oJavaText(oJavaString);
+			QJniObject oMimeType = QJniObject::fromString("text/plain");
+
+			QJniObject oActionSend = QJniObject::getStaticObjectField(
+				"android/content/Intent", "ACTION_SEND", "Ljava/lang/String;"
+			);
+
+			QJniObject oIntent("android/content/Intent", "(Ljava/lang/String;)V", oActionSend.object());
+
+			if (oIntent.isValid()) {
+				oIntent.callObjectMethod("setType", "(Ljava/lang/String;)Landroid/content/Intent;", oMimeType.object());
+
+				jint flagNewTask = QJniObject::getStaticField<jint>("android/content/Intent", "FLAG_ACTIVITY_NEW_TASK");
+				oIntent.callObjectMethod("addFlags", "(I)Landroid/content/Intent;", flagNewTask);
+
+				oIntent.callObjectMethod(
+					"putExtra",
+					"(Ljava/lang/String;Z)V",
+					QJniObject::fromString("android.content.extra.IS_SENSITIVE").object(),
+					true
+				);
+
+				jlong oCurrentTimeMillis = QJniObject::callStaticMethod<jlong>("java/lang/System", "currentTimeMillis", "()J");
+				jlong oExpiryTimeMillis = oCurrentTimeMillis + (jlong)(inTimeSeconds * 1000);
+
+				oIntent.callObjectMethod(
+					"putExtra",
+					"(Ljava/lang/String;J)V",
+					QJniObject::fromString("android.content.extra.AUTO_CLEAR_TIMESTAMP").object(),
+					oExpiryTimeMillis
+				);
+
+				QJniObject oExtraTextKey = QJniObject::getStaticObjectField(
+					"android/content/Intent", "EXTRA_TEXT", "Ljava/lang/String;"
+				);
+				oIntent.callObjectMethod(
+					"putExtra",
+					"(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;",
+					oExtraTextKey.object(),
+					oJavaText.object()
+				);
+
+				QJniObject oChooserTitle = QJniObject::fromString("Private text");
+				QJniObject oChooserIntent = QJniObject::callStaticObjectMethod(
+					"android/content/Intent",
+					"createChooser",
+					"(Landroid/content/Intent;Ljava/lang/CharSequence;)Landroid/content/Intent;",
+					oIntent.object(),
+					oChooserTitle.object()
+				);
+
+				if (oChooserIntent.isValid() && oAssignedTaskId == g_oCurrentCopyTaskId.load()) {
+					oActivity.callMethod<void>("startActivity", "(Landroid/content/Intent;)V", oChooserIntent.object());
+					_A_DEBUG << "Secure Intent dispatched with native system-enforced background auto-clear metadata.";
+				}
+			}
+
+			if (oJavaString) oEnvironment->DeleteLocalRef(oJavaString);
+		}
+
+		for (int i = 0; i < oTextLength; ++i) oBuffer[i] = 0;
+
+		if (oEnvironment->ExceptionCheck()) oEnvironment->ExceptionClear();
+	});
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void fAClipboardDriverAndroid_Clear(void) {
+
+	QString oText("Clipboard cleared");
+	fAClipboardDriverAndroid_TextCopyPrivate(oText);
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void fAClipboardDriverAndroid_ClearAfter(int inTimeSeconds) {
+
+	QString oText("Clipboard cleared");
+	fAClipboardDriverAndroid_TextCopyPrivateAndClear(oText,inTimeSeconds);
+}
+
 
 // -----------
 /*!
@@ -67,8 +329,9 @@ AClipboardDriverAndroid::~AClipboardDriverAndroid() {
 	Doc.
 */
 
-void AClipboardDriverAndroid::mTextCopyPrivate(QString inText) {
+void AClipboardDriverAndroid::mTextCopyPrivate(QString& inText) {
 
+	fAClipboardDriverAndroid_TextCopyPrivate(inText);
 }
 
 
@@ -79,161 +342,10 @@ void AClipboardDriverAndroid::mTextCopyPrivate(QString inText) {
 	Doc.
 */
 
-void AClipboardDriverAndroid::mTextCopyPrivateAndClear(QString inText, int inTimeoutSeconds) {
+void AClipboardDriverAndroid::mTextCopyPrivateAndClear(QString& inText, int inTimeoutSeconds) {
 
+	fAClipboardDriverAndroid_TextCopyPrivateAndClear(inText,inTimeoutSeconds);
 }
-
-
-// -----------
-/*!
-	\fn
-
-	Doc.
-*/
-
-// void AClipboardDriverAndroid::mTextCopySensitive(QString inText) {
-
-// 	QNativeInterface::QAndroidApplication::runOnAndroidMainThread([inText]() {
-
-// 		QJniObject oActivity = QNativeInterface::QAndroidApplication::context();
-// 		if (!oActivity.isValid()) {
-// 			_A_CRITICAL << "Can't get Android context";
-// 			return;
-// 		}
-
-// 		QJniObject oService = QJniObject::fromString("clipboard");
-// 		QJniObject oManager = oActivity.callObjectMethod(
-// 			"getSystemService",
-// 			"(Ljava/lang/String;)Ljava/lang/Object;",
-// 			oService.object<jstring>()
-// 		);
-// 		if (!oManager.isValid()) {
-// 			_A_CRITICAL << "Clipboard is invalid";
-// 			return;
-// 		}
-
-// 		QJniObject oLabel = QJniObject::fromString("Sensitive Data");
-// 		QJniObject oText = QJniObject::fromString(inText);
-
-// 		QJniObject oClipData = QJniObject::callStaticObjectMethod(
-// 			"android/content/ClipData",
-// 			"newPlainText",
-// 			"(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Landroid/content/ClipData;",
-// 			oLabel.object<jobject>(),
-// 			oText.object<jobject>()
-// 		);
-// 		if (!oClipData.isValid()) {
-// 			_A_CRITICAL << "ClipData is invalid";
-// 			return;
-// 		}
-
-// 		QJniObject oClipDescription = oClipData.callObjectMethod(
-// 			"getDescription",
-// 			"()Landroid/content/ClipDescription;"
-// 		);
-// 		if (oClipDescription.isValid()) {
-
-// 			QJniObject oExtras("android/os/PersistableBundle");
-
-// 			int oSDKVersion = QJniObject::getStaticField<jint>("android/os/Build$VERSION","SDK_INT");
-// 			if (oSDKVersion >= 33) {
-
-// 				QJniObject oExtraSensitiveKey = QJniObject::getStaticObjectField(
-// 					"android/content/ClipDescription",
-// 					"EXTRA_IS_SENSITIVE",
-// 					"Ljava/lang/String;"
-// 				);
-// 				oExtras.callMethod<void>(
-// 					"putBoolean",
-// 					"(Ljava/lang/String;Z)V",
-// 					oExtraSensitiveKey.object<jstring>(),
-// 					true
-// 				);
-
-// 			} else {
-// 				QJniObject oKey = QJniObject::fromString("android.content.extra.IS_SENSITIVE");
-// 				oExtras.callMethod<void>(
-// 					"putBoolean",
-// 					"(Ljava/lang/String;Z)V",
-// 					oKey.object<jstring>(),
-// 					true
-// 				);
-// 			}
-
-// 			// SAMSUNG ONE UI SPECIFIC FLAGS
-// 			oExtras.callMethod<void>(
-// 				"putBoolean",
-// 				"(Ljava/lang/String;Z)V",
-// 				QJniObject::fromString("com.samsung.android.content.extra.PRIVATE").object<jstring>(),
-// 				true
-// 			);
-// 			oExtras.callMethod<void>(
-// 				"putBoolean",
-// 				"(Ljava/lang/String;Z)V",
-// 				QJniObject::fromString("com.samsung.android.content.extra.IS_SENSITIVE").object<jstring>(),
-// 				true
-// 			);
-// 			oExtras.callMethod<void>(
-// 				"putBoolean",
-// 				"(Ljava/lang/String;Z)V",
-// 				QJniObject::fromString("is_password").object<jstring>(),
-// 				true
-// 			);
-
-// 			// OPPO, REALME, ONEPLUS (ColorOS / Realme UI)
-// 			oExtras.callMethod<void>(
-// 				"putBoolean",
-// 				"(Ljava/lang/String;Z)V",
-// 				QJniObject::fromString("com.coloros.safecenter.clipboard.SENSITIVE").object<jstring>(),
-// 				true
-// 			);
-// 			oExtras.callMethod<void>(
-// 				"putBoolean",
-// 				"(Ljava/lang/String;Z)V",
-// 				QJniObject::fromString("oppo.content.extra.IS_SENSITIVE").object<jstring>(),
-// 				true
-// 			);
-
-// 			// HONOR & HUAWEI (MagicOS / EMUI)
-// 			oExtras.callMethod<void>(
-// 				"putBoolean",
-// 				"(Ljava/lang/String;Z)V",
-// 				QJniObject::fromString("huawei.content.extra.IS_SENSITIVE").object<jstring>(),
-// 				true
-// 			);
-// 			oExtras.callMethod<void>(
-// 				"putBoolean",
-// 				"(Ljava/lang/String;Z)V",
-// 				QJniObject::fromString("com.huawei.secure.clipboard").object<jstring>(),
-// 				true
-// 			);
-
-// 			// VIVO & IQOO (Funtouch OS / OriginOS)
-// 			oExtras.callMethod<void>(
-// 				"putBoolean",
-// 				"(Ljava/lang/String;Z)V",
-// 				QJniObject::fromString("com.vivo.clipboard.is_sensitive").object<jstring>(),
-// 				true
-// 			);
-
-// 			oClipDescription.callMethod<void>(
-// 				"setExtras",
-// 				"(Landroid/os/PersistableBundle;)V",
-// 				oExtras.object()
-// 			);
-
-// 			oManager.callMethod<void>(
-// 				"setPrimaryClip",
-// 				"(Landroid/content/ClipData;)V",
-// 				oClipData.object()
-// 			);
-
-// 			_A_DEBUG << "Sensitive cross-vendor text copied securely";
-// 		} else {
-// 			_A_CRITICAL << "Clip description is invalid";
-// 		}
-// 	});
-// }
 
 
 // -----------
@@ -245,30 +357,7 @@ void AClipboardDriverAndroid::mTextCopyPrivateAndClear(QString inText, int inTim
 
 void AClipboardDriverAndroid::mClear(void) {
 
-	QJniObject oContext = QNativeInterface::QAndroidApplication::context();
-	if (oContext.isValid()) {
-
-		QJniObject oString = QJniObject::getStaticObjectField(
-			"android/content/Context",
-			"CLIPBOARD_SERVICE",
-			"Ljava/lang/String;"
-		);
-
-		QJniObject oManager = oContext.callObjectMethod(
-			"getSystemService",
-			"(Ljava/lang/String;)Ljava/lang/Object;",
-			oString.object()
-		);
-		if (oManager.isValid()) {
-			oManager.callMethod<void>("clearPrimaryClip","()V");
-			_A_DEBUG << "Clipboard cleared";
-		} else {
-			_A_CRITICAL << "Manager is invalid";
-		}
-
-	} else {
-		_A_CRITICAL << "Context is invalid";
-	}
+	fAClipboardDriverAndroid_Clear();
 }
 
 
@@ -281,6 +370,7 @@ void AClipboardDriverAndroid::mClear(void) {
 
 void AClipboardDriverAndroid::mClearAfter(int inTimeSeconds) {
 
+	fAClipboardDriverAndroid_ClearAfter(inTimeSeconds);
 }
 
 

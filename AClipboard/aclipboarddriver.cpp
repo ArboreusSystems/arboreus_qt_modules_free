@@ -67,7 +67,7 @@ AClipboardDriver::~AClipboardDriver(void) {
 	Doc.
 */
 
-void AClipboardDriver::mTextCopyPrivate(QString inText) {
+void AClipboardDriver::mTextCopyPrivate(QString& inText) {
 
 	Q_UNUSED(inText);
 
@@ -82,7 +82,7 @@ void AClipboardDriver::mTextCopyPrivate(QString inText) {
 	Doc.
 */
 
-void AClipboardDriver::mTextCopyPrivateAndClear(QString inText, int inTimeoutSeconds) {
+void AClipboardDriver::mTextCopyPrivateAndClear(QString& inText, int inTimeoutSeconds) {
 
 	Q_UNUSED(inText);
 	Q_UNUSED(inTimeoutSeconds);

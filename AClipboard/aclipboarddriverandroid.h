@@ -26,6 +26,12 @@
 
 // Constants and definitions
 
+// Global functions
+void fAClipboardDriverAndroid_TextCopyPrivate(QString& inText);
+void fAClipboardDriverAndroid_TextCopyPrivateAndClear(QString& inText,int inTimeSeconds);
+void fAClipboardDriverAndroid_Clear(void);
+void fAClipboardDriverAndroid_ClearAfter(int inTimeSeconds);
+
 
 // Namesapces
 namespace ARB {
@@ -41,19 +47,13 @@ class AClipboardDriverAndroid : public AClipboardDriver {
 		explicit AClipboardDriverAndroid(QClipboard* inClipboard,QObject* parent = nullptr);
 		virtual ~AClipboardDriverAndroid(void);
 
-		void mTextCopyPrivate(QString inText) override;
-		void mTextCopyPrivateAndClear(QString inText,int inTimeoutSeconds) override;
+		void mTextCopyPrivate(QString& inText) override;
+		void mTextCopyPrivateAndClear(QString& inText,int inTimeoutSeconds) override;
 
 		void mClear(void) override;
 		void mClearAfter(int inTimeSeconds) override;
 
 		QString mTextPaste(void) override;
-
-		// void mTextCopySensitive(QString inText) override;
-		// void mTextStreamSensitive(QString inText) override;
-		// QString mTextPaste(void) override;
-
-		// void mClear(void) override;
 };
 
 } // namespace ARB

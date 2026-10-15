@@ -42,8 +42,8 @@ class AClipboardDriver : public QObject {
 		explicit AClipboardDriver(QClipboard* inClipboard,QObject* parent = nullptr);
 		virtual ~AClipboardDriver(void);
 
-        virtual void mTextCopyPrivate(QString inText);
-		virtual void mTextCopyPrivateAndClear(QString inText,int inTimeoutSeconds);
+		virtual void mTextCopyPrivate(QString& inText);
+		virtual void mTextCopyPrivateAndClear(QString& inText,int inTimeoutSeconds);
 
 		virtual void mClear(void);
         virtual void mClearAfter(int inTimeSeconds);

@@ -27,6 +27,8 @@
 // Android includes
 #if defined(Q_OS_ANDROID)
 #include <QJniObject>
+#include <QJniEnvironment>
+#include <memory>
 #endif
 
 // Application includes
