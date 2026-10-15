@@ -46,8 +46,8 @@ class AClipboardDriverMacOS : public AClipboardDriver {
 		explicit AClipboardDriverMacOS(QClipboard* inClipboard,QObject* parent = nullptr);
 		virtual ~AClipboardDriverMacOS(void);
 
-		void mTextCopyPrivate(QString inText) override;
-		void mTextCopyPrivateAndClear(QString inText,int inTimeoutSeconds) override;
+		void mTextCopyPrivate(QString& inText) override;
+		void mTextCopyPrivateAndClear(QString& inText,int inTimeoutSeconds) override;
 
 		void mClear(void) override;
 		void mClearAfter(int inTimeoutSeconds) override;

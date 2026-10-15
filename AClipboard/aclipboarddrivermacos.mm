@@ -200,7 +200,7 @@ AClipboardDriverMacOS::~AClipboardDriverMacOS(void) {
 	Doc.
 */
 
-void AClipboardDriverMacOS::mTextCopyPrivate(QString inText) {
+void AClipboardDriverMacOS::mTextCopyPrivate(QString& inText) {
 
 	fAClipboardDriverMacOS_TextCopyPrivate(inText);
 }
@@ -213,7 +213,7 @@ void AClipboardDriverMacOS::mTextCopyPrivate(QString inText) {
 	Doc.
 */
 
-void AClipboardDriverMacOS::mTextCopyPrivateAndClear(QString inText, int inTimeoutSeconds) {
+void AClipboardDriverMacOS::mTextCopyPrivateAndClear(QString& inText, int inTimeoutSeconds) {
 
 	fAClipboardDriverMacOS_TextCopyPrivateAndClear(inText,inTimeoutSeconds);
 }
