@@ -204,9 +204,9 @@ void fAClipboardDriverAndroid_TextCopyPrivateAndClear(QString& inText, int inTim
 
 				oIntent.callObjectMethod(
 					"putExtra",
-					"(Ljava/lang/String;Z)V",
+					"(Ljava/lang/String;Z)Landroid/content/Intent;",
 					QJniObject::fromString("android.content.extra.IS_SENSITIVE").object(),
-					true
+					static_cast<jboolean>(true)
 				);
 
 				jlong oCurrentTimeMillis = QJniObject::callStaticMethod<jlong>("java/lang/System", "currentTimeMillis", "()J");
@@ -214,7 +214,7 @@ void fAClipboardDriverAndroid_TextCopyPrivateAndClear(QString& inText, int inTim
 
 				oIntent.callObjectMethod(
 					"putExtra",
-					"(Ljava/lang/String;J)V",
+					"(Ljava/lang/String;J)Landroid/content/Intent;",
 					QJniObject::fromString("android.content.extra.AUTO_CLEAR_TIMESTAMP").object(),
 					oExpiryTimeMillis
 				);

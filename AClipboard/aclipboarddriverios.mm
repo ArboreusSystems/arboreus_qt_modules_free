@@ -55,7 +55,7 @@ void fAClipboardDriverIOS_TextCopyPrivate(QString& inText) {
 	@autoreleasepool {
 
 		NSString* oNSText = [NSString stringWithCharacters:(const unichar*)inText.unicode() length:inText.length()];
-		NSDate* oExpiryDate = [NSDate dateWithTimeIntervalSinceNow:300];
+		NSDate* oExpiryDate = [NSDate dateWithTimeIntervalSinceNow:150];
 
 		NSDictionary* oOptions = @{
 			UIPasteboardOptionLocalOnly: @YES,
