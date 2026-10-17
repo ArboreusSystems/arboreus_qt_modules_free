@@ -31,6 +31,7 @@ Window {
 	property string pColorBackgroundContent: "steelblue";
 	property bool pBottomInput: false;
 	property alias pContentWrapper: oContentWrapper;
+	property alias pBackgroundWrapper: oBackgroundWrapper;
 
 	id: oRoot;
 	objectName: oRoot.pObjectName;
@@ -45,6 +46,12 @@ Window {
 			oRoot.visibility = Window.Windowed;
 			oRoot.mResize();
 		}
+	}
+
+	Item {
+
+		id: oBackgroundWrapper;
+		anchors.fill: parent;
 	}
 
 	Item {

@@ -22,6 +22,7 @@ import QtQuick;
 Rectangle {
 
 	property var pColors: ["magenta","cyan","yellow"];
+	property int pElementWidth: 4;
 
 	id: oRoot;
 
@@ -56,7 +57,7 @@ Rectangle {
 
 		while (oWidthSumm < oRoot.width) {
 
-			var oWidth = Math.floor(Math.random() * 2) ? oElements.height : oElements.height / 2.5;
+			var oWidth = Math.floor(Math.random() * 2) ? oRoot.pElementWidth : oRoot.pElementWidth / 2.5;
 			var oID = "oObject_" + oCounter;
 
 			var oElement = Qt.createQmlObject(
