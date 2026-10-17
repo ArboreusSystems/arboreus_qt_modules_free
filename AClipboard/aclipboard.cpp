@@ -219,6 +219,32 @@ void AClipboard::mTextCopyPrivateAndClear(QString inText,int inTimeoutSeconds) {
 	Doc.
 */
 
+void AClipboard::mTextShare(QString inText) {
+
+	pDriver->mTextShare(inText);
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void AClipboard::mTextShareAndClear(QString inText, int inTimeoutSeconds) {
+
+	pDriver->mTextShareAndClear(inText,inTimeoutSeconds);
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
 void AClipboard::mClear(void) {
 
 	pDriver->mClear();

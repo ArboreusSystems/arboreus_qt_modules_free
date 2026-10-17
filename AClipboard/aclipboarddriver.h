@@ -44,6 +44,8 @@ class AClipboardDriver : public QObject {
 
 		virtual void mTextCopyPrivate(QString& inText);
 		virtual void mTextCopyPrivateAndClear(QString& inText,int inTimeoutSeconds);
+		virtual void mTextShare(QString& inText);
+		virtual void mTextShareAndClear(QString& inText,int inTimeoutSeconds);
 
 		virtual void mClear(void);
         virtual void mClearAfter(int inTimeSeconds);

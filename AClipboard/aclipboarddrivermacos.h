@@ -48,6 +48,7 @@ class AClipboardDriverMacOS : public AClipboardDriver {
 
 		void mTextCopyPrivate(QString& inText) override;
 		void mTextCopyPrivateAndClear(QString& inText,int inTimeoutSeconds) override;
+		void mTextShare(QString& inText) override;
 
 		void mClear(void) override;
 		void mClearAfter(int inTimeoutSeconds) override;

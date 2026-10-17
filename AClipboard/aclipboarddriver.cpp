@@ -98,6 +98,37 @@ void AClipboardDriver::mTextCopyPrivateAndClear(QString& inText, int inTimeoutSe
 	Doc.
 */
 
+void AClipboardDriver::mTextShare(QString& inText) {
+
+	Q_UNUSED(inText);
+
+	_A_INFO << "AClipboardDriver unsupported platform for sharing private text";
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void AClipboardDriver::mTextShareAndClear(QString& inText, int inTimeoutSeconds) {
+
+	Q_UNUSED(inText);
+	Q_UNUSED(inTimeoutSeconds);
+
+	_A_INFO << "AClipboardDriver unsupported platform for sharing private text and clear";
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
 void AClipboardDriver::mClear(void) {
 
 	_A_INFO << "AClipboardDriver unsupported platform for clearing";

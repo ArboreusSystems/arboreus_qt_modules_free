@@ -29,6 +29,8 @@
 // Global functions
 void fAClipboardDriverAndroid_TextCopyPrivate(QString& inText);
 void fAClipboardDriverAndroid_TextCopyPrivateAndClear(QString& inText,int inTimeSeconds);
+void fAClipboardDriverAndroid_TextShare(QString& inText);
+void fAClipboardDriverAndroid_TextShareAndClear(QString& inText,int inTimeSeconds);
 void fAClipboardDriverAndroid_Clear(void);
 void fAClipboardDriverAndroid_ClearAfter(int inTimeSeconds);
 
@@ -49,6 +51,8 @@ class AClipboardDriverAndroid : public AClipboardDriver {
 
 		void mTextCopyPrivate(QString& inText) override;
 		void mTextCopyPrivateAndClear(QString& inText,int inTimeoutSeconds) override;
+		void mTextShare(QString& inText) override;
+		void mTextShareAndClear(QString& inText,int inTimeoutSeconds) override;
 
 		void mClear(void) override;
 		void mClearAfter(int inTimeSeconds) override;

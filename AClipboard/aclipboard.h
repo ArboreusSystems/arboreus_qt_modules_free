@@ -69,14 +69,15 @@ class AClipboard : public QObject {
 		void mTextCopy(QString inText);
 		void mTextCopyPrivate(QString inText);
 		void mTextCopyPrivateAndClear(QString inText,int inTimeoutSeconds);
+		void mTextShare(QString inText);
+		void mTextShareAndClear(QString inText,int inTimeoutSeconds);
+		QString mTextPaste(void);
 
 		void mClear(void);
         void mClearAfter(int inTimeSeconds);
 
 		void mFlood(void);
 		void mFloodAfter(int inTimeSeconds);
-
-		QString mTextPaste(void);
 
 	signals:
 

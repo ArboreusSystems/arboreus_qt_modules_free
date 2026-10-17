@@ -246,6 +246,21 @@ void AClipboardDriverIOS::mTextCopyPrivateAndClear(QString& inText, int inTimeSe
 }
 
 
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
+void AClipboardDriverIOS::mTextShare(QString& inText) {
+
+	Q_UNUSED(inText);
+
+	// TODO: Share text
+}
+
+
 
 // -----------
 /*!

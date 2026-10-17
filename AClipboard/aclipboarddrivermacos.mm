@@ -226,6 +226,21 @@ void AClipboardDriverMacOS::mTextCopyPrivateAndClear(QString& inText, int inTime
 	Doc.
 */
 
+void AClipboardDriverMacOS::mTextShare(QString& inText) {
+
+	Q_UNUSED(inText);
+
+	// TODO: Share text
+}
+
+
+// -----------
+/*!
+	\fn
+
+	Doc.
+*/
+
 void AClipboardDriverMacOS::mClear(void) {
 
 	fAClipboardDriverMacOS_Clear();
