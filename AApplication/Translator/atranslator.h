@@ -55,7 +55,7 @@ class ATranslator : public QObject {
 
 		AApplicationConfig* pConfig = nullptr;
 		QTranslator* pTranslator = nullptr;
-		QString pLocale = "en";
+		QString pLocale = QStringLiteral("en");
 
 		QString mLocaleDefault(void);
 		QString mlocaleResourceName(void);

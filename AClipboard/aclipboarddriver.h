@@ -36,7 +36,7 @@ class AClipboardDriver : public QObject {
 
 	public:
 
-		QString pSignature = "undefined";
+		QString pSignature = QStringLiteral("undefined");
 
 		explicit AClipboardDriver(QObject* parent = nullptr);
 		explicit AClipboardDriver(QClipboard* inClipboard,QObject* parent = nullptr);

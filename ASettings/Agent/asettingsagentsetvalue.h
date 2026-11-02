@@ -40,7 +40,7 @@ class ASettingsAgentSetValue : public AThreadAgentTemplate {
 
 		ASettingsService* pService = nullptr;
 		AOutputQVariant pOutput;
-		QString pKey = "NoDefinedKey";
+		QString pKey = QStringLiteral("NoDefinedKey");
 		QVariant pValue = QVariant::fromValue(0);
 
 		explicit ASettingsAgentSetValue(QObject* parent = nullptr);

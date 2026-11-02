@@ -30,7 +30,7 @@
 // Constants and definitions
 #define _A_META_UNIVERSAL_ENUM_STATUS \
 	AEnumStatus::staticMetaObject,"AEnums",1,0,"AEnumStatus",\
-	"Can't create AEnumStatus"
+	QStringLiteral("Can't create AEnumStatus")
 
 // Namespace
 namespace ARB {

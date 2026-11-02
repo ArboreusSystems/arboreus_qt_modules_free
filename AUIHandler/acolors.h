@@ -60,7 +60,7 @@ class AColors : public QObject {
 
 		QMap<QString,QString> pColorStrings = {};
 		QMap<QString,QColor> pColors = {};
-		QString pDefaultColor = "magenta";
+		QString pDefaultColor = QStringLiteral("magenta");
 };
 
 } // namespace ARB

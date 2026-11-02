@@ -42,10 +42,10 @@ class ADeviceSafeAreaInsets {
 		QVariantMap mToVariantMap(void) {
 
 			QVariantMap oOutput = {};
-			oOutput.insert("Top",Top);
-			oOutput.insert("Bottom",Bottom);
-			oOutput.insert("Left",Left);
-			oOutput.insert("Right",Right);
+			oOutput.insert(QLatin1StringView("Top"),Top);
+			oOutput.insert(QLatin1StringView("Bottom"),Bottom);
+			oOutput.insert(QLatin1StringView("Left"),Left);
+			oOutput.insert(QLatin1StringView("Right"),Right);
 			return oOutput;
 		}
 };

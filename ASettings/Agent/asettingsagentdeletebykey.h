@@ -40,7 +40,7 @@ class ASettingsAgentDeleteByKey : public AThreadAgentTemplate {
 
 		ASettingsService* pService = nullptr;
 		AOutputQVariant pOutput;
-		QString pKey = "NoDefinedKey";
+		QString pKey = QStringLiteral("NoDefinedKey");
 
 		explicit ASettingsAgentDeleteByKey(QObject *parent = nullptr);
 		virtual ~ASettingsAgentDeleteByKey(void);

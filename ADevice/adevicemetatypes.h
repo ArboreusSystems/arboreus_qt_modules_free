@@ -30,13 +30,13 @@
 // Constants and definitions
 #define _A_META_DEVICE_ENUM_DEVICE_TYPE \
 	AEnumDeviceType::staticMetaObject,"AEnums",1,0,"AEnumDeviceType",\
-	"Can't create AEnumDeviceType"
+	QStringLiteral("Can't create AEnumDeviceType")
 #define _A_META_DEVICE_ENUM_PLATFORM \
 	AEnumPlatform::staticMetaObject,"AEnums",1,0,"AEnumPlatform",\
-	"Can't create AEnumPlatform"
+	QStringLiteral("Can't create AEnumPlatform")
 #define _A_META_DEVICE_ENUM_STATUS_BAR_STYLE \
 	AEnumStatusBarStyle::staticMetaObject,"AEnums",1,0,"AEnumStatusBarStyle",\
-	"Can't create AEnumStatusBarStyle"
+	QStringLiteral("Can't create AEnumStatusBarStyle")
 
 // Namespace
 namespace ARB {

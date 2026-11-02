@@ -93,9 +93,9 @@ class AOutputQVariant {
 			}
 
 			QVariantMap oResult = {};
-			oResult.insert("pStatus",QVariant::fromValue(pStatus));
-			oResult.insert("pCode",QVariant::fromValue(pCode));
-			oResult.insert("pValue",oDetachedValue);
+			oResult.insert(QLatin1StringView("pStatus"),QVariant::fromValue(pStatus));
+			oResult.insert(QLatin1StringView("pCode"),QVariant::fromValue(pCode));
+			oResult.insert(QLatin1StringView("pValue"),oDetachedValue);
 
 			return oResult;
 		}
@@ -157,7 +157,7 @@ class AOutputQVariant {
 					oString.clear();
 					oString.squeeze();
 				}
-				pValue = QVariant(QString(""));
+				pValue = QVariant(QString());
 			} else if (oUserType == QMetaType::QByteArray) {
 				QByteArray oBytes = pValue.value<QByteArray>();
 				if (!oBytes.isEmpty()) {

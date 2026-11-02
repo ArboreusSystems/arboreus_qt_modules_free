@@ -52,7 +52,7 @@ class AFonts : public QObject {
 
 	private:
 
-		QString pFontFamily = QString("NoFontFamily");
+		QString pFontFamily = QStringLiteral("NoFontFamily");
 
 		void mSetFontList(QList<QString> inFontList);
 };

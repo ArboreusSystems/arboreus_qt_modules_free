@@ -51,10 +51,10 @@ class APath : public QObject {
 
 		AApplicationConfig* pConfig = nullptr;
 
-		QString pPathDataApplication = "NoPathDataApplication";
-		QString pPathDataConfig = "NoPathDataConfig";
-		QString pPathDataCache = "NoPathDataCache";
-		QString pPathDataDocuments = "NoPathDataDocuments";
+		QString pPathDataApplication = QStringLiteral("NoPathDataApplication");
+		QString pPathDataConfig = QStringLiteral("NoPathDataConfig");
+		QString pPathDataCache = QStringLiteral("NoPathDataCache");
+		QString pPathDataDocuments = QStringLiteral("NoPathDataDocuments");
 };
 
 } // namespace ARB

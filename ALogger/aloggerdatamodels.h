@@ -67,8 +67,8 @@ class ALoggerProperties {
 
 	public:
 
-		QString PathLoggerDB = "NoPathLoggerDB";
-		QString PathLoggerFile = "PathLoggerFile";
+		QString PathLoggerDB = QStringLiteral("NoPathLoggerDB");
+		QString PathLoggerFile = QStringLiteral("PathLoggerFile");
 		QObject* ConfigObject = nullptr;
 		ALoggerAgent* Agent = nullptr;
 
