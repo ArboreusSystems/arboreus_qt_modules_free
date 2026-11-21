@@ -14,7 +14,7 @@
 // ----------------------------------------------------------
 
 // Class header
-#include "aprivacynativeandroid.h"
+#include "aprivatenativeandroid.h"
 
 // Namesapce
 using namespace ARB;
@@ -27,9 +27,9 @@ using namespace ARB;
 	Doc.
 */
 
-APrivacyNativeAndroid::APrivacyNativeAndroid(QObject* parent) : APrivacyNative(parent) {
+APrivateNativeAndroid::APrivateNativeAndroid(QObject* parent) : APrivateNative(parent) {
 
-	_A_DEBUG << "ASecurityNativeAndroid created";
+	_A_DEBUG << "APrivateNativeAndroid created";
 }
 
 
@@ -40,9 +40,9 @@ APrivacyNativeAndroid::APrivacyNativeAndroid(QObject* parent) : APrivacyNative(p
 	Doc.
 */
 
-APrivacyNativeAndroid::~APrivacyNativeAndroid(void) {
+APrivateNativeAndroid::~APrivateNativeAndroid(void) {
 
-	_A_DEBUG << "ASecurityNativeAndroid deleted";
+	_A_DEBUG << "APrivateNativeAndroid deleted";
 }
 
 
@@ -53,7 +53,7 @@ APrivacyNativeAndroid::~APrivacyNativeAndroid(void) {
 	Doc.
 */
 
-void APrivacyNativeAndroid::mScreen(bool inMode) {
+void APrivateNativeAndroid::mScreen(bool inMode) {
 
 	const jint oFlagSecure = 8192;
 

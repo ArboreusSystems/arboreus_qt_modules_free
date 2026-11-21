@@ -12,17 +12,17 @@
 	\endlist
 */
 // ----------------------------------------------------------
-#ifndef APRIVACYNATIVEANDROID_H
-#define APRIVACYNATIVEANDROID_H
+#ifndef APRIVATENATIVEANDROID_H
+#define APRIVATENATIVEANDROID_H
 
 // Precompiled includes
-#include <aprivacy_pch.h>
+#include <aprivate_pch.h>
 
 // System includes
 
 // Application includes
 #include <alogger.h>
-#include <aprivacynative.h>
+#include <aprivatenative.h>
 
 // Constants and definitions
 
@@ -30,18 +30,18 @@
 namespace ARB {
 
 // Class definitions
-class APrivacyNativeAndroid : public APrivacyNative {
+class APrivateNativeAndroid : public APrivateNative {
 
 	Q_OBJECT
 
 	public:
 
-		explicit APrivacyNativeAndroid(QObject* parent = nullptr);
-		virtual ~APrivacyNativeAndroid(void);
+		explicit APrivateNativeAndroid(QObject* parent = nullptr);
+		virtual ~APrivateNativeAndroid(void);
 
 		virtual void mScreen(bool inMode) override;
 };
 
 } // namespace ARB
 
-#endif // APRIVACYNATIVEANDROID_H
+#endif // APRIVATENATIVEANDROID_H
