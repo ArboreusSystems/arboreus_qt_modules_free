@@ -7,8 +7,8 @@
  *  @created 21/09/2026 at 20:33:09
  * */// --------------------------------------------------------------
 
-#ifndef ASECURITY_H_PCH
-#define ASECURITY_H_PCH
+#ifndef APRIVATE_H_PCH
+#define APRIVATE_H_PCH
 
 #if defined __cplusplus
 
@@ -31,4 +31,4 @@
 
 #endif // defined __cplusplus
 
-#endif // ASECURITY_H_PCH
+#endif // APRIVATE_H_PCH

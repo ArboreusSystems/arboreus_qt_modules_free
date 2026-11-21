@@ -28,9 +28,9 @@
 // Constants and defintions
 
 // Class definitions
-@interface APrivacyNativeIOSHandler : NSObject
+@interface APrivateNativeIOSHandler : NSObject
 
-	@property (nonatomic, strong) UIView* pPrivacyScreen;
+	@property (nonatomic, strong) UIView* pPrivateScreen;
 	@property (nonatomic,assign) BOOL pAction;
 
 @end

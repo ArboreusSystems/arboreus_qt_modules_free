@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.16)
 ## ----------------------------------------
 ## Global settings
 
-set(A_NAME_TARGET APrivacy)
+set(A_NAME_TARGET APrivate)
 set(A_PREFIX A_${A_NAME_TARGET})
 
 
@@ -43,19 +43,19 @@ set(${A_PREFIX}_INCLUDE_DIR_PRIVATE)
 
 set(${A_PREFIX}_SOURCES_PRECOMPILED_HEADERS_PUBLIC
 	${${A_PREFIX}_SOURCES_PRECOMPILED_HEADERS_PUBLIC}
-	aprivacy_pch.h
+	aprivate_pch.h
 )
 
 set(${A_PREFIX}_SOURCES_HEADERS
 	${${A_PREFIX}_SOURCES_HEADERS}
-	aprivacy.h
-	Native/aprivacynative.h
+	aprivate.h
+	Native/aprivatenative.h
 )
 
 set(${A_PREFIX}_SOURCES_CPP
 	${${A_PREFIX}_SOURCES_CPP}
-	aprivacy.cpp
-	Native/aprivacynative.cpp
+	aprivate.cpp
+	Native/aprivatenative.cpp
 )
 
 set(${A_PREFIX}_SOURCES
@@ -88,12 +88,12 @@ if(IOS)
 	enable_language(OBJC OBJCXX Swift)
 
 	set(${A_PREFIX}_SOURCES_IOS_OBJC_HEADERS
-		Native/aprivacynativeios.h
-		Native/aprivacynativeiosprivate.h
+		Native/aprivatenativeios.h
+		Native/aprivatenativeiosprivate.h
 	)
 
 	set(${A_PREFIX}_SOURCES_IOS_OBJC
-		Native/aprivacynativeios.mm
+		Native/aprivatenativeios.mm
 	)
 
 	set(${A_PREFIX}_SOURCES
@@ -109,11 +109,11 @@ if(ANDROID)
 	set(QT_FORCE_CMP0156_TO_VALUE NEW)
 
 	set(${A_PREFIX}_SOURCES_ANDROID_HEADERS
-		Native/aprivacynativeandroid.h
+		Native/aprivatenativeandroid.h
 	)
 
 	set(${A_PREFIX}_SOURCES_ANDROID_CPP
-		Native/aprivacynativeandroid.cpp
+		Native/aprivatenativeandroid.cpp
 	)
 
 	set(${A_PREFIX}_SOURCES

@@ -8,7 +8,7 @@
  * */// --------------------------------------------------------------
 
 // Class header
-#include "aprivacy.h"
+#include "aprivate.h"
 
 // Namesapce
 using namespace ARB;
@@ -21,26 +21,26 @@ using namespace ARB;
 	Doc.
 */
 
-APrivacy::APrivacy(QObject* parent) : QObject(parent) {
+APrivate::APrivate(QObject* parent) : QObject(parent) {
 
 #ifdef Q_OS_IOS
-	pNative = qobject_cast<APrivacyNative*>(new APrivacyNativeIOS(this));
+	pNative = qobject_cast<APrivateNative*>(new APrivateNativeIOS(this));
 #elif defined(Q_OS_ANDROID)
-	pNative = qobject_cast<APrivacyNative*>(new APrivacyNativeAndroid(this));
+	pNative = qobject_cast<APrivateNative*>(new APrivateNativeAndroid(this));
 #elif defined(Q_OS_MACOS)
-	pNative = new APrivacyNative(this);
+	pNative = new APrivateNative(this);
 #endif
 
 	QObject::connect(
-		pNative,&APrivacyNative::sgScreenshotTaken,
-		this,&APrivacy::slScreenshotTaken
+		pNative,&APrivateNative::sgScreenshotTaken,
+		this,&APrivate::slScreenshotTaken
 	);
 	QObject::connect(
-		pNative,&APrivacyNative::sgScreenRecordingChanged,
-		this,&APrivacy::slScreenRecordingChanged
+		pNative,&APrivateNative::sgScreenRecordingChanged,
+		this,&APrivate::slScreenRecordingChanged
 	);
 
-	_A_DEBUG << "APrivacy created";
+	_A_DEBUG << "APrivate created";
 }
 
 
@@ -51,9 +51,9 @@ APrivacy::APrivacy(QObject* parent) : QObject(parent) {
 	Doc.
 */
 
-APrivacy::~APrivacy(void) {
+APrivate::~APrivate(void) {
 
-	_A_DEBUG << "APrivacy deleted";
+	_A_DEBUG << "APrivate deleted";
 }
 
 
@@ -64,9 +64,9 @@ APrivacy::~APrivacy(void) {
 	Doc.
 */
 
-void APrivacy::mInit(void) {
+void APrivate::mInit(void) {
 
-	_A_DEBUG << "APrivacy initiated";
+	_A_DEBUG << "APrivate initiated";
 
 	emit sgInitiated();
 }
@@ -79,7 +79,7 @@ void APrivacy::mInit(void) {
 	Doc.
 */
 
-void APrivacy::mScreen(bool inMode) {
+void APrivate::mScreen(bool inMode) {
 
 	pNative->mScreen(inMode);
 }
@@ -92,7 +92,7 @@ void APrivacy::mScreen(bool inMode) {
 	Doc.
 */
 
-void APrivacy::slScreenshotTaken(void) {
+void APrivate::slScreenshotTaken(void) {
 
 	_A_DEBUG << "Screenshot taken";
 
@@ -107,7 +107,7 @@ void APrivacy::slScreenshotTaken(void) {
 	Doc.
 */
 
-void APrivacy::slScreenRecordingChanged(bool inCaptured) {
+void APrivate::slScreenRecordingChanged(bool inCaptured) {
 
 	_A_DEBUG << "Screens recording status changed" << inCaptured;
 

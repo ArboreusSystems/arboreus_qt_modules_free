@@ -1,6 +1,6 @@
 // ----------------------------------------------------------
 /*!
-	\class ASecurityNative
+	\class APrivateNative
 	\title
 	\brief Template file files/cppheader/file.h
 
@@ -14,7 +14,7 @@
 // ----------------------------------------------------------
 
 // Class header
-#include "aprivacynative.h"
+#include "aprivatenative.h"
 
 // Namesapce
 using namespace ARB;
@@ -27,9 +27,9 @@ using namespace ARB;
 	Doc.
 */
 
-APrivacyNative::APrivacyNative(QObject* parent) : QObject(parent) {
+APrivateNative::APrivateNative(QObject* parent) : QObject(parent) {
 
-	_A_DEBUG << "ASecurityNative created";
+	_A_DEBUG << "APrivateNative created";
 }
 
 
@@ -40,9 +40,9 @@ APrivacyNative::APrivacyNative(QObject* parent) : QObject(parent) {
 	Doc.
 */
 
-APrivacyNative::~APrivacyNative(void) {
+APrivateNative::~APrivateNative(void) {
 
-	_A_DEBUG << "APrivacyNative deleted";
+	_A_DEBUG << "APrivateNative deleted";
 }
 
 
@@ -53,7 +53,7 @@ APrivacyNative::~APrivacyNative(void) {
 	Doc.
 */
 
-void APrivacyNative::mScreen(bool inMode) {
+void APrivateNative::mScreen(bool inMode) {
 
 	Q_UNUSED(inMode);
 

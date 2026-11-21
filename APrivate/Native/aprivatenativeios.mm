@@ -19,27 +19,27 @@
 // -----------
 
 // Class header
-#include "aprivacynativeios.h"
+#include "aprivatenativeios.h"
 
 // iOS private includes
-#include <aprivacynativeiosprivate.h>
+#include <aprivatenativeiosprivate.h>
 
 // Namespace
 using namespace ARB;
 
 // Global variables
-APrivacyNativeIOSHandler* gAPrivacyNativeIOSHandler = nullptr;
-APrivacyNativeIOS* gASPrivacyNativeIOS = nullptr;
+APrivateNativeIOSHandler* gAPrivateNativeIOSHandler = nullptr;
+APrivateNativeIOS* gASPrivateNativeIOS = nullptr;
 
 // Class definitions
-@implementation APrivacyNativeIOSHandler
+@implementation APrivateNativeIOSHandler
 
 +(instancetype) mInstance {
 
-	static APrivacyNativeIOSHandler* oInstance = nil;
+	static APrivateNativeIOSHandler* oInstance = nil;
 	static dispatch_once_t oOnceToken;
 	dispatch_once(&oOnceToken,^{
-		oInstance = [[APrivacyNativeIOSHandler alloc] init];
+		oInstance = [[APrivateNativeIOSHandler alloc] init];
 	});
 
 	return oInstance;
@@ -91,7 +91,7 @@ APrivacyNativeIOS* gASPrivacyNativeIOS = nullptr;
 			UIWindow* oWindow = [self mActiveWindow];
 			if (!oWindow) return;
 
-			if (!self.pPrivacyScreen) {
+			if (!self.pPrivateScreen) {
 
 				UIBlurEffect* oBlur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
 				UIVisualEffectView* oBlurView = [[UIVisualEffectView alloc] initWithEffect:oBlur];
@@ -112,11 +112,11 @@ APrivacyNativeIOS* gASPrivacyNativeIOS = nullptr;
 				];
 
 				[oBlurView.contentView addSubview:oLabel];
-				[self setPPrivacyScreen:oBlurView];
+				[self setPPrivateScreen:oBlurView];
 			}
 
-			[oWindow addSubview:self.pPrivacyScreen];
-			[oWindow bringSubviewToFront:self.pPrivacyScreen];
+			[oWindow addSubview:self.pPrivateScreen];
+			[oWindow bringSubviewToFront:self.pPrivateScreen];
 			[oWindow layoutIfNeeded];
 		});
 	}
@@ -128,9 +128,9 @@ APrivacyNativeIOS* gASPrivacyNativeIOS = nullptr;
 
 		dispatch_async(dispatch_get_main_queue(), ^{
 
-			if (self.pPrivacyScreen) {
-				[self.pPrivacyScreen removeFromSuperview];
-				[self setPPrivacyScreen:nil];
+			if (self.pPrivateScreen) {
+				[self.pPrivateScreen removeFromSuperview];
+				[self setPPrivateScreen:nil];
 			}
 		});
 	}
@@ -138,16 +138,16 @@ APrivacyNativeIOS* gASPrivacyNativeIOS = nullptr;
 
 -(void) mOnScreenshotDetected {
 
-	if ([self pAction]) gASPrivacyNativeIOS->mScreenshotTakenHandler();
+	if ([self pAction]) gASPrivateNativeIOS->mScreenshotTakenHandler();
 }
 
 -(void) mOnScreenRecordingChanged {
 
 	if ([self pAction]) {
 		if ([UIScreen mainScreen].isCaptured) {
-			gASPrivacyNativeIOS->mScreenRecordingHandler(true);
+			gASPrivateNativeIOS->mScreenRecordingHandler(true);
 		} else {
-			gASPrivacyNativeIOS->mScreenRecordingHandler(false);
+			gASPrivateNativeIOS->mScreenRecordingHandler(false);
 		}
 	}
 }
@@ -168,14 +168,14 @@ QT_BEGIN_NAMESPACE
 	Doc.
 */
 
-APrivacyNativeIOS::APrivacyNativeIOS(QObject* parent) : APrivacyNative(parent) {
+APrivateNativeIOS::APrivateNativeIOS(QObject* parent) : APrivateNative(parent) {
 
 	@autoreleasepool {
-		gAPrivacyNativeIOSHandler = [APrivacyNativeIOSHandler mInstance];
-		gASPrivacyNativeIOS = this;
+		gAPrivateNativeIOSHandler = [APrivateNativeIOSHandler mInstance];
+		gASPrivateNativeIOS = this;
 	}
 
-	_A_DEBUG << "ASPrivacyNativeIOS created";
+	_A_DEBUG << "APrivateNativeIOS created";
 }
 
 
@@ -186,12 +186,12 @@ APrivacyNativeIOS::APrivacyNativeIOS(QObject* parent) : APrivacyNative(parent) {
 	Doc.
 */
 
-APrivacyNativeIOS::~APrivacyNativeIOS(void) {
+APrivateNativeIOS::~APrivateNativeIOS(void) {
 
-	gAPrivacyNativeIOSHandler = nullptr;
-	gASPrivacyNativeIOS = nullptr;
+	gAPrivateNativeIOSHandler = nullptr;
+	gASPrivateNativeIOS = nullptr;
 
-	_A_DEBUG << "ASPrivacyNativeIOS deleted";
+	_A_DEBUG << "APrivateNativeIOS deleted";
 }
 
 
@@ -202,12 +202,12 @@ APrivacyNativeIOS::~APrivacyNativeIOS(void) {
 	Doc.
 */
 
-void APrivacyNativeIOS::mScreen(bool inMode) {
+void APrivateNativeIOS::mScreen(bool inMode) {
 
 	if (inMode) {
-		[gAPrivacyNativeIOSHandler setPAction: YES];
+		[gAPrivateNativeIOSHandler setPAction: YES];
 	} else {
-		[gAPrivacyNativeIOSHandler setPAction: NO];
+		[gAPrivateNativeIOSHandler setPAction: NO];
 	}
 }
 
@@ -219,7 +219,7 @@ void APrivacyNativeIOS::mScreen(bool inMode) {
 	Doc.
 */
 
-void APrivacyNativeIOS::mScreenshotTakenHandler(void) {
+void APrivateNativeIOS::mScreenshotTakenHandler(void) {
 
 	_A_DEBUG << "Screenshot taken";
 
@@ -234,7 +234,7 @@ void APrivacyNativeIOS::mScreenshotTakenHandler(void) {
 	Doc.
 */
 
-void APrivacyNativeIOS::mScreenRecordingHandler(bool inCaptured) {
+void APrivateNativeIOS::mScreenRecordingHandler(bool inCaptured) {
 
 	_A_DEBUG << "Screen recording status changed" << inCaptured;
 

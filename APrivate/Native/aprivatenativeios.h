@@ -1,6 +1,6 @@
 // ----------------------------------------------------------
 /*!
-	\headerfile ASecurityNative
+	\headerfile ASecurityNativeIOS
 	\title
 	\brief Template file wizard/classes/cpp/file.h
 
@@ -8,42 +8,43 @@
 	\li @notice Template file classes/file.h
 	\li @copyright Arboreus (http://arboreus.systems)
 	\li @author Alexandr Kirilov (http://alexandr.kirilov.me)
-	\li @created 21/09/2026 at 20:40:04
+	\li @created 21/09/2026 at 21:49:03
 	\endlist
 */
 // ----------------------------------------------------------
-#ifndef APRIVACYNATIVE_H
-#define APRIVACYNATIVE_H
+#ifndef APRIVATENATIVEIOS_H
+#define APRIVATENATIVEIOS_H
 
 // Precompiled includes
-#include <aprivacy_pch.h>
+#include <aprivate_pch.h>
 
 // System includes
 
 // Application includes
 #include <alogger.h>
+#include <aprivatenative.h>
+
+// Constants and definitions
 
 // Namespace
 namespace ARB {
 
 // Class definitions
-class APrivacyNative : public QObject {
+class APrivateNativeIOS : public APrivateNative {
 
 	Q_OBJECT
 
 	public:
 
-		explicit APrivacyNative(QObject* parent = nullptr);
-		virtual ~APrivacyNative(void);
+		explicit APrivateNativeIOS(QObject* parent = nullptr);
+		virtual ~APrivateNativeIOS(void);
 
-		virtual void mScreen(bool inMode);
+		virtual void mScreen(bool inMode) override;
 
-	signals:
-
-		void sgScreenshotTaken(void);
-		void sgScreenRecordingChanged(bool isCaptured);
+		void mScreenshotTakenHandler(void);
+		void mScreenRecordingHandler(bool isCaptured);
 };
 
 } // namespace ARB
 
-#endif // APRIVACYNATIVE_H
+#endif // APRIVATENATIVEIOS_H

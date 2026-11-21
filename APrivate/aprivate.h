@@ -1,6 +1,6 @@
 // ----------------------------------------------------------
 /*!
-	\headerfile ASecurity
+	\headerfile APrivate
 	\title
 	\brief Template file wizard/classes/cpp/file.h
 
@@ -13,26 +13,26 @@
 */
 // ----------------------------------------------------------
 
-#ifndef APRIVACY_H
-#define APRIVACY_H
+#ifndef APRIVATE_H
+#define APRIVATE_H
 
 // Precompiled includes
-#include <aprivacy_pch.h>
+#include <aprivate_pch.h>
 
 // System includes
 
 // Application includes
 #include <alogger.h>
-#include <aprivacynative.h>
+#include <aprivatenative.h>
 
 // iOS includes
 #ifdef Q_OS_IOS
-#include <aprivacynativeios.h>
+#include <aprivatenativeios.h>
 #endif
 
 // Android includes
 #ifdef Q_OS_ANDROID
-#include <aprivacynativeandroid.h>
+#include <aprivatenativeandroid.h>
 #endif
 
 
@@ -40,14 +40,14 @@
 namespace ARB {
 
 // Class definitions
-class APrivacy : public QObject {
+class APrivate : public QObject {
 
 	Q_OBJECT
 
 	public:
 
-		explicit APrivacy(QObject* parent = nullptr);
-		virtual ~APrivacy(void);
+		explicit APrivate(QObject* parent = nullptr);
+		virtual ~APrivate(void);
 
 		void mInit(void);
 
@@ -64,7 +64,7 @@ class APrivacy : public QObject {
 
 	private:
 
-		APrivacyNative* pNative = nullptr;
+		APrivateNative* pNative = nullptr;
 
 	private slots:
 
@@ -74,4 +74,4 @@ class APrivacy : public QObject {
 
 } // namespace ARB
 
-#endif // APRIVACY_H
+#endif // APRIVATE_H
