@@ -23,6 +23,7 @@
 #include <QVariantMap>
 #include <QVariantList>
 #include <QByteArray>
+#include <QPointer>
 
 // Application includes
 

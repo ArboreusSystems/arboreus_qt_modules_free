@@ -7,7 +7,7 @@
 	\list
 	\li @notice Template file classes/file.h
 	\li @copyright Arboreus (http://arboreus.systems)
-	\li @author Alexandr Kirilov (http://alexandr.kirilov.me)
+	\li @author Alexandr Kirilov (http://kirilov.me)
 	\li @created 15/10/2025 at 17:10:41
 	\endlist
 */
@@ -34,40 +34,78 @@ class AThreadServiceTemplate : public QObject {
 
 	public:
 
-		explicit AThreadServiceTemplate(QObject* parent = nullptr): QObject(parent) {
-
-			pMutex.lock();
-		}
+		explicit AThreadServiceTemplate(QObject* parent = nullptr)	: QObject(parent) {}
 
 		virtual ~AThreadServiceTemplate(void) {
 
-			pWaitCondition.wakeAll();
-			pMutex.unlock();
+			mResume();
 		}
 
 		void mResume(void) {
 
+			QMutexLocker locker(&pMutex);
+			pSuspended = false;
 			pWaitCondition.wakeAll();
 		}
 
 		void mSuspend(void) {
 
-			QMetaObject::invokeMethod(this,&AThreadServiceTemplate::slSuspend);
-			pMutex.lock();
-			pMutex.unlock();
+			QMutexLocker locker(&pMutex);
+			if (pSuspended) return;
+			pSuspended = true;
+
+			QMetaObject::invokeMethod(
+				this,
+				&AThreadServiceTemplate::slSuspend,
+				Qt::QueuedConnection
+			);
+
+			while (pSuspended && !pIsSleeping) pStateCondition.wait(&pMutex);
 		}
+
+		bool mIsSuspended(void) const {
+
+			QMutexLocker locker(&pMutex);
+			return pIsSleeping;
+		}
+
+	public slots:
+
+		void slHandleStarted(void) {
+
+			mOnStarted();
+		}
+
+		void slHandleStopping(void) {
+
+			mOnStopping();
+		}
+
+	protected:
+
+		virtual void mOnStarted(void) {}
+		virtual void mOnStopping(void) {}
 
 	private slots:
 
 		void slSuspend(void) {
 
-			pWaitCondition.wait(&pMutex);
+			QMutexLocker locker(&pMutex);
+			while (pSuspended) {
+				pIsSleeping = true;
+				pStateCondition.wakeAll();
+				pWaitCondition.wait(&pMutex);
+				pIsSleeping = false;
+			}
 		}
 
 	private:
 
-		QMutex pMutex;
+		mutable QMutex pMutex;
 		QWaitCondition pWaitCondition;
+		QWaitCondition pStateCondition;
+		bool pSuspended = false;
+		bool pIsSleeping = false;
 };
 
 } // namespace ARB
