@@ -16,6 +16,18 @@
 
 // System includes
 #include <QObject>
+#include <QByteArray>
+#include <QByteArrayView>
+#include <QMetaType>
+#include <QString>
+#include <QVariant>
+#include <QtCore/qglobal.h>
+#include <cstddef>
+#include <string.h>
+#include <limits>
+#include <sys/mman.h>
+#include <sys/resource.h>
+#include <unistd.h>
 
 //Android includes
 #ifdef Q_OS_ANDROID

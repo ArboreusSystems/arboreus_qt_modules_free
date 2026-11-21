@@ -49,13 +49,17 @@ set(${A_PREFIX}_SOURCES_PRECOMPILED_HEADERS_PUBLIC
 set(${A_PREFIX}_SOURCES_HEADERS
 	${${A_PREFIX}_SOURCES_HEADERS}
 	aprivate.h
-	Native/aprivatenative.h
+	aprivatenative.h
+	Buffer/aprivatebuffer.h
+	Buffer/aprivatebufferstorage.h
 )
 
 set(${A_PREFIX}_SOURCES_CPP
 	${${A_PREFIX}_SOURCES_CPP}
 	aprivate.cpp
-	Native/aprivatenative.cpp
+	aprivatenative.cpp
+	Buffer/aprivatebuffer.cpp
+	Buffer/aprivatebufferstorage.cpp
 )
 
 set(${A_PREFIX}_SOURCES
@@ -70,7 +74,7 @@ set(${A_PREFIX}_SOURCES
 set(${A_PREFIX}_INCLUDE_DIR_PUBLIC
 	${${A_PREFIX}_INCLUDE_DIR_PUBLIC}
 	${${A_PREFIX}_DIR_ROOT}
-	${${A_PREFIX}_DIR_ROOT}/Native
+	${${A_PREFIX}_DIR_ROOT}/Buffer
 )
 
 
@@ -88,12 +92,12 @@ if(IOS)
 	enable_language(OBJC OBJCXX Swift)
 
 	set(${A_PREFIX}_SOURCES_IOS_OBJC_HEADERS
-		Native/aprivatenativeios.h
-		Native/aprivatenativeiosprivate.h
+		aprivatenativeios.h
+		aprivatenativeiosprivate.h
 	)
 
 	set(${A_PREFIX}_SOURCES_IOS_OBJC
-		Native/aprivatenativeios.mm
+		aprivatenativeios.mm
 	)
 
 	set(${A_PREFIX}_SOURCES
@@ -109,11 +113,11 @@ if(ANDROID)
 	set(QT_FORCE_CMP0156_TO_VALUE NEW)
 
 	set(${A_PREFIX}_SOURCES_ANDROID_HEADERS
-		Native/aprivatenativeandroid.h
+		aprivatenativeandroid.h
 	)
 
 	set(${A_PREFIX}_SOURCES_ANDROID_CPP
-		Native/aprivatenativeandroid.cpp
+		aprivatenativeandroid.cpp
 	)
 
 	set(${A_PREFIX}_SOURCES
