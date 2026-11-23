@@ -142,6 +142,7 @@ target_link_libraries(${A_NAME_TARGET}
 	PRIVATE
 		Qt6::Core
 		Qt6::CorePrivate
+		AOpenSSL
 	PUBLIC
 		ALogger
 )

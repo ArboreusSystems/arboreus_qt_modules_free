@@ -28,6 +28,14 @@
 #include <sys/mman.h>
 #include <sys/resource.h>
 #include <unistd.h>
+#include <memory>
+#include <algorithm>
+#include <cstring>
+#include <functional>
+#include <utility>
+
+// OpenSSL includes
+#include <openssl/crypto.h>
 
 //Android includes
 #ifdef Q_OS_ANDROID
